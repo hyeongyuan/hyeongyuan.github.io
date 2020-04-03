@@ -20,28 +20,34 @@
     var CONFIG = {"hostname":"hyeongyuan.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="DevieW">
-<meta property="og:url" content="https://hyeongyuan.github.io/index.html">
+  <meta name="description" content="Redux의 최적화를 위한 라이브러리 Reselect에 적용된 개념이기도 하고, 불필요한 연산을 없앨 수 있다는 점이 알아두면 언젠가는 사용할 것이라고 생각했습니다. 메모이제이션이란메모이제이션은 동일한 계산을 반복해야 할 때, 이전에 계산한 값을 메모리에 저장함으로써 동일한 계산의 반복 수행을 제거하여 프로그램 실행 속도를 빠르게 하는 기술입니다. 즉, 메">
+<meta property="og:type" content="article">
+<meta property="og:title" content="메모이제이션(Memoization)">
+<meta property="og:url" content="https://hyeongyuan.github.io/2020/01/05/memoization/index.html">
 <meta property="og:site_name" content="DevieW">
+<meta property="og:description" content="Redux의 최적화를 위한 라이브러리 Reselect에 적용된 개념이기도 하고, 불필요한 연산을 없앨 수 있다는 점이 알아두면 언젠가는 사용할 것이라고 생각했습니다. 메모이제이션이란메모이제이션은 동일한 계산을 반복해야 할 때, 이전에 계산한 값을 메모리에 저장함으로써 동일한 계산의 반복 수행을 제거하여 프로그램 실행 속도를 빠르게 하는 기술입니다. 즉, 메">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-01-05T04:00:00.000Z">
+<meta property="article:modified_time" content="2020-04-03T13:15:49.913Z">
 <meta property="article:author" content="Goofy">
+<meta property="article:tag" content="javascript">
+<meta property="article:tag" content="algorithm">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://hyeongyuan.github.io/">
+<link rel="canonical" href="https://hyeongyuan.github.io/2020/01/05/memoization/">
 
 
 <script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome : true,
-    isPost : false,
+    isHome : false,
+    isPost : true,
     lang   : 'en'
   };
 </script>
 
-  <title>DevieW</title>
+  <title>메모이제이션(Memoization) | DevieW</title>
   
 
 
@@ -154,258 +160,10 @@
         <div class="content-wrap">
           
 
-          <div class="content index posts-expand">
+          <div class="content post posts-expand">
             
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://hyeongyuan.github.io/2020/01/06/value_vs_reference/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Goofy">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="DevieW">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/01/06/value_vs_reference/" class="post-title-link" itemprop="url">Value vs Reference</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-01-06 21:36:54" itemprop="dateCreated datePublished" datetime="2020-01-06T21:36:54+09:00">2020-01-06</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-04-03 22:14:11" itemprop="dateModified" datetime="2020-04-03T22:14:11+09:00">2020-04-03</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/javascript/" itemprop="url" rel="index"><span itemprop="name">javascript</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
 
     
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>무심코 사용했던 자바스크립트의 타입들을 정리하고 객체를 보다 정확하게 사용하기 위해 정리했습니다.</p>
-<h2 id="Javascript"><a href="#Javascript" class="headerlink" title="Javascript"></a>Javascript</h2><p>자바스크립트에는 <strong>value</strong> 를 다루는 5 가지의 데이터 타입이 있다. Boolean, null, undefined, String, 그리고 Number (<strong>Primitives</strong>)</p>
-<p>또한 <strong>reference</strong> 를 다루는 3 가지 데이터 타입이 있다. Array, Function, 그리고 Object (<strong>Objects</strong>)</p>
-<h2 id="Primitives"><a href="#Primitives" class="headerlink" title="Primitives"></a>Primitives</h2><p>만약 기본형(primative) 타입이 변수에 할당된다면, 우리는 그 변수가 기본형 값(primitive value)를 포함한다고 할 수 있다.</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> x = <span class="number">10</span>;</span><br><span class="line"><span class="keyword">var</span> y = <span class="string">'abc'</span>;</span><br><span class="line"><span class="keyword">var</span> z = <span class="literal">null</span>;</span><br></pre></td></tr></table></figure>
-
-<p><code>x</code>는 <code>10</code>을 포함하고, <code>y</code>는 <code>&quot;abc&quot;</code>를 포함한다.<br>이 개념을 확실히 하기 위해서, 변수와 할당된 값을 표로 그려보면 아래와 같다.</p>
-<p>In memory:</p>
-<table>
-<thead>
-<tr>
-<th>Variables</th>
-<th>Values</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>x</td>
-<td>10</td>
-</tr>
-<tr>
-<td>y</td>
-<td>“abc”</td>
-</tr>
-<tr>
-<td>z</td>
-<td>null</td>
-</tr>
-</tbody></table>
-<p>변수의 값을 다른 변수로 <code>=</code>를 사용하여 할당하면, 기존의 값이 복사되어 새로운 변수로 옮겨진다.</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> x = <span class="number">10</span>;</span><br><span class="line"><span class="keyword">var</span> y = <span class="string">'abc'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> a = x;</span><br><span class="line"><span class="keyword">var</span> b = y;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(x, y, a, b); <span class="comment">// -&gt; 10, 'abc', 10, 'abc'</span></span><br></pre></td></tr></table></figure>
-
-<p>변수 <code>a</code>와 <code>x</code>는 모두 <code>10</code>을 포함하고 있고, <code>b</code>와 <code>y</code> 또한 <code>&quot;abc&quot;</code> 를 포함하고 있다. 이것들은 각 값을 복사하여 가지고 있기 때문에 분리되어 있다고 할 수 있다.</p>
-<p>In memory:</p>
-<table>
-<thead>
-<tr>
-<th>Variables</th>
-<th>Values</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>x</td>
-<td>10</td>
-</tr>
-<tr>
-<td>y</td>
-<td>“abc”</td>
-</tr>
-<tr>
-<td>a</td>
-<td>10</td>
-</tr>
-<tr>
-<td>b</td>
-<td>“abc”</td>
-</tr>
-</tbody></table>
-<p>그렇기 때문에 변수의 값 변화는 그 값을 복사한 또 다른 변수에게 영향을 끼치지 않는 것이다. 기존의 변수와 값을 복사한 변수는 관계가 없다고 생각하면 된다.</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> x = <span class="number">10</span>;</span><br><span class="line"><span class="keyword">var</span> y = <span class="string">'abc'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> a = x;</span><br><span class="line"><span class="keyword">var</span> b = y;</span><br><span class="line"></span><br><span class="line">a = <span class="number">5</span>;</span><br><span class="line">b = <span class="string">'def'</span>;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(x, y, a, b); <span class="comment">// -&gt; 10, 'abc', 5, 'def'</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="Objects"><a href="#Objects" class="headerlink" title="Objects"></a>Objects</h2><p>기본형 타입이 아닌 값(non-primitive value)이 변수에 할당된다면, 변수는 그 값에 대한 참조(<strong>reference</strong>)를 가지게 된다.</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> arr = []; <span class="comment">// &lt;- 1</span></span><br><span class="line">arr.push(<span class="number">1</span>); <span class="comment">// &lt;- 2</span></span><br></pre></td></tr></table></figure>
-
-<p>위 두 라인으로 메모리에 적힌 내용을 표로 표현하면,</p>
-<p>1.<br>| Variables | Values | Addresses | Objects |<br>| ——— | —— | ——— | ——- |<br>| arr | &lt;#123&gt; | #123 | [] |</p>
-<p>2.<br>| Variables | Values | Addresses | Objects |<br>| ——— | —— | ——— | ——- |<br>| arr | &lt;#123&gt; | #123 | [1] |</p>
-<h3 id="Assigning-by-Reference"><a href="#Assigning-by-Reference" class="headerlink" title="Assigning by Reference"></a><strong>Assigning by Reference</strong></h3><p>객체(object)와 같은 참조 타입의 값을 <code>=</code>를 사용해 다른 변수에 할당할 경우, 그 값의 주소를 복사하여 포함하게 되는 것이다. 즉, 객체는 값(value)이 아닌 참조(reference)를 복사하여 할당한다.</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> reference = [<span class="number">1</span>];</span><br><span class="line"><span class="keyword">var</span> refCopy = reference;</span><br></pre></td></tr></table></figure>
-
-<p>위의 코드을 실행하면 메모리에 아래와 같이 적힌다고 볼 수 있다.</p>
-<table>
-<thead>
-<tr>
-<th>Variables</th>
-<th>Values</th>
-<th>Addresses</th>
-<th>Objects</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>reference</td>
-<td>&lt;#123&gt;</td>
-<td>#123</td>
-<td>[1]</td>
-</tr>
-<tr>
-<td>refCopy</td>
-<td>&lt;#123&gt;</td>
-<td></td>
-<td></td>
-</tr>
-</tbody></table>
-<p>두 변수는 같은 배열에 대한 참조를 가지고 있다. 이는 둘 중 하나의 변수가 바뀌더라도 두 변수 모두에게 반영된다는 뜻이다.</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">reference.push(<span class="number">2</span>);</span><br><span class="line"><span class="built_in">console</span>.log(reference, refCopy); <span class="comment">// -&gt; [1, 2], [1, 2]</span></span><br></pre></td></tr></table></figure>
-
-<p>In memory:</p>
-<table>
-<thead>
-<tr>
-<th>Variables</th>
-<th>Values</th>
-<th>Addresses</th>
-<th>Objects</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>reference</td>
-<td>&lt;#123&gt;</td>
-<td>#123</td>
-<td>[1, 2]</td>
-</tr>
-<tr>
-<td>refCopy</td>
-<td>&lt;#123&gt;</td>
-<td></td>
-<td></td>
-</tr>
-</tbody></table>
-<h3 id="Reassigning-a-Reference"><a href="#Reassigning-a-Reference" class="headerlink" title="Reassigning a Reference"></a><strong>Reassigning a Reference</strong></h3><p>동일한 변수에 참조를 재할당할 경우, 재할당된 값이 이전의 참조를 대체하게 된다.</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> obj = &#123; <span class="attr">first</span>: <span class="string">'reference'</span> &#125;;</span><br></pre></td></tr></table></figure>
-
-<p>In memory:</p>
-<table>
-<thead>
-<tr>
-<th>Variables</th>
-<th>Values</th>
-<th>Addresses</th>
-<th>Objects</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>obj</td>
-<td>&lt;#234&gt;</td>
-<td>#234</td>
-<td>{first: “reference”}</td>
-</tr>
-</tbody></table>
-<p>두번째 줄을 추가할 경우,</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> obj = &#123; <span class="attr">first</span>: <span class="string">'reference'</span> &#125;;</span><br><span class="line">obj = &#123; <span class="attr">second</span>: <span class="string">'ref2'</span> &#125;;</span><br></pre></td></tr></table></figure>
-
-<p>이전의 객체와 주소값은 여전히 메모리에 남아 있고, 새로운 객체와 주소값이 추가되는 것이다.</p>
-<p>In memory:</p>
-<table>
-<thead>
-<tr>
-<th>Variables</th>
-<th>Values</th>
-<th>Addresses</th>
-<th>Objects</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>obj</td>
-<td>&lt;#678&gt;</td>
-<td>#234</td>
-<td>{first: “reference”}</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td>#678</td>
-<td>{second: “ref2”}</td>
-</tr>
-</tbody></table>
-<p>위의 주소값 <code>&quot;#234&quot;</code>과 같이 객체값에 대한 참조가 없는 경우, 자바스크립트 엔진은 가비지 컬렉션(garbage collection)을 수행한다. 위의 경우, 가비지 컬렉션이 수행되어 객체 <code>{first: &quot;reference&quot;}</code>에는 더 이상 접근할 수 없게 된다.</p>
-<h2 id="and"><a href="#and" class="headerlink" title="== and ==="></a>== and ===</h2><p><code>==</code> 와 <code>===</code> 같은 비교 연산자가 참조 타입의 변수에 사용될 경우, 이는 값이 아닌 참조를 비교한다.</p>
-<p>같은 객체 대한 참조를 가진 변수들을 비교하면, 결과로 <code>true</code>값을 반환할 것이다.</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> arrRef = [<span class="string">'reference'</span>];</span><br><span class="line"><span class="keyword">var</span> arrRef2 = arrRef;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(arrRef === arrRef2); <span class="comment">// -&gt; true</span></span><br></pre></td></tr></table></figure>
-
-<p>서로 다른 객체인 경우, 동일한 속성(값)을 포함하더라도 비교 결과로 <code>false</code>를 반환한다.</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> arr1 = [<span class="string">'reference'</span>];</span><br><span class="line"><span class="keyword">var</span> arr2 = [<span class="string">'reference'</span>];</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(arr1 === arr2); <span class="comment">// -&gt; false</span></span><br></pre></td></tr></table></figure>
-
-<p>만약 당신이 서로 다른 객체가 동일한 속성(값)을 포함하고 있는지 비교하고 싶다면, 가장 쉬운 방법은 객체를 기본형 타입인 <code>String</code>으로 변환한 뒤 그 값들을 비교하면 된다.</p>
-<p>비교 연산자는 기본형 타입의 값인 경우에는 단순히 그 값이 일치하는지 여부를 확인한다.</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> arr1Str = <span class="built_in">JSON</span>.stringify(arr1);</span><br><span class="line"><span class="keyword">var</span> arr2Str = <span class="built_in">JSON</span>.stringify(arr2);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(arr1Str === arr2Str); <span class="comment">// -&gt; true</span></span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
@@ -421,10 +179,9 @@
       <meta itemprop="name" content="DevieW">
     </span>
       <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/01/05/memoization/" class="post-title-link" itemprop="url">메모이제이션(Memoization)</a>
-        </h2>
+        <h1 class="post-title" itemprop="name headline">
+          메모이제이션(Memoization)
+        </h1>
 
         <div class="post-meta">
             <span class="post-meta-item">
@@ -463,7 +220,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>Redux의 최적화를 위한 라이브러리 Reselect에 적용된 개념이기도 하고, <strong>불필요한 연산을 없앨 수 있다는 점</strong>이 알아두면 언젠가는 사용할 것이라고 생각했습니다.</p>
+        <p>Redux의 최적화를 위한 라이브러리 Reselect에 적용된 개념이기도 하고, <strong>불필요한 연산을 없앨 수 있다는 점</strong>이 알아두면 언젠가는 사용할 것이라고 생각했습니다.</p>
 <h2 id="메모이제이션이란"><a href="#메모이제이션이란" class="headerlink" title="메모이제이션이란"></a>메모이제이션이란</h2><p>메모이제이션은 동일한 계산을 반복해야 할 때, 이전에 <strong>계산한 값을 메모리에 저장</strong>함으로써 동일한 계산의 반복 수행을 제거하여 프로그램 실행 속도를 빠르게 하는 기술입니다.</p>
 <p>즉, 메모는 함수를 위한 캐싱 기법이라고 할 수 있습니다.</p>
 <p>메모이제이션은 주어진 입력에 대해 항상 동일한 출력을 반환하는 알고리즘에 한해 사용됩니다. (ex. Fibonacci, Factorial)</p>
@@ -495,21 +252,34 @@
 <li>부작용이 없는 <strong>순수 함수</strong>에만 적용될 수 있습니다.</li>
 </ol>
 
-      
     </div>
 
     
     
     
+
       <footer class="post-footer">
-        <div class="post-eof"></div>
+          <div class="post-tags">
+              <a href="/tags/javascript/" rel="tag"># javascript</a>
+              <a href="/tags/algorithm/" rel="tag"># algorithm</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2020/01/06/value_vs_reference/" rel="next" title="Value vs Reference">
+      Value vs Reference <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
       </footer>
+    
   </article>
   
   
-  
-
-
   
 
 
@@ -562,6 +332,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#메모이제이션이란"><span class="nav-number">1.</span> <span class="nav-text">메모이제이션이란</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#피보나치-수열"><span class="nav-number">2.</span> <span class="nav-text">피보나치 수열</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#피보나치-수열과-메모이제이션"><span class="nav-number">3.</span> <span class="nav-text">피보나치 수열과 메모이제이션</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#메모이제이션-함수의-구현"><span class="nav-number">4.</span> <span class="nav-text">메모이제이션 함수의 구현</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#구현-방법"><span class="nav-number">4.1.</span> <span class="nav-text">구현 방법</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#피보나치와-팩토리얼의-메모이제이션"><span class="nav-number">5.</span> <span class="nav-text">피보나치와 팩토리얼의 메모이제이션</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#성능-확인"><span class="nav-number">6.</span> <span class="nav-text">성능 확인</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#주의사항"><span class="nav-number">7.</span> <span class="nav-text">주의사항</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
