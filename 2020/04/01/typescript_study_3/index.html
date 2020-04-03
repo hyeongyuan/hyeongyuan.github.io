@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"hyeongyuan.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="함수 (Funtion)함수는 애플리케이션의 코드를 구성하는 기본 요소입니다. 타입스크립트의 함수를 살펴보기 전에 먼제 자바스크립트의 함수를 간단히 살펴보고 지나가겠습니다. 자바스크립트 함수타입스크립트는 자바스크립트와 동일한 형태로 함수를 선언하고 호출할 수 있습니다. 자바스크립트의 함수는 두 가지로 나눌 수 있습니다.  기명 함수 (Named functio">
+<meta property="og:type" content="article">
+<meta property="og:title" content="타입스크립트 스터디 3주차">
+<meta property="og:url" content="https://hyeongyuan.github.io/2020/04/01/typescript_study_3/index.html">
+<meta property="og:site_name" content="DevieW">
+<meta property="og:description" content="함수 (Funtion)함수는 애플리케이션의 코드를 구성하는 기본 요소입니다. 타입스크립트의 함수를 살펴보기 전에 먼제 자바스크립트의 함수를 간단히 살펴보고 지나가겠습니다. 자바스크립트 함수타입스크립트는 자바스크립트와 동일한 형태로 함수를 선언하고 호출할 수 있습니다. 자바스크립트의 함수는 두 가지로 나눌 수 있습니다.  기명 함수 (Named functio">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://hyeongyuan.github.io/images/typescript_1.png">
+<meta property="og:image" content="https://hyeongyuan.github.io/images/typescript_2.png">
+<meta property="article:published_time" content="2020-04-01T10:30:00.000Z">
+<meta property="article:modified_time" content="2020-04-03T13:57:35.794Z">
+<meta property="article:author" content="Goofy">
+<meta property="article:tag" content="typescript">
+<meta property="article:tag" content="function">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://hyeongyuan.github.io/images/typescript_1.png">
+
+<link rel="canonical" href="https://hyeongyuan.github.io/2020/04/01/typescript_study_3/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>타입스크립트 스터디 3주차 | DevieW</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">DevieW</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://hyeongyuan.github.io/2020/04/01/typescript_study_3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Goofy">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DevieW">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          타입스크립트 스터디 3주차
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-04-01 19:30:00" itemprop="dateCreated datePublished" datetime="2020-04-01T19:30:00+09:00">2020-04-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-04-03 22:57:35" itemprop="dateModified" datetime="2020-04-03T22:57:35+09:00">2020-04-03</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/typescript/" itemprop="url" rel="index"><span itemprop="name">typescript</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="함수-Funtion"><a href="#함수-Funtion" class="headerlink" title="함수 (Funtion)"></a>함수 (Funtion)</h1><p>함수는 애플리케이션의 코드를 구성하는 기본 요소입니다.</p>
+<p>타입스크립트의 함수를 살펴보기 전에 먼제 자바스크립트의 함수를 간단히 살펴보고 지나가겠습니다.</p>
+<h2 id="자바스크립트-함수"><a href="#자바스크립트-함수" class="headerlink" title="자바스크립트 함수"></a>자바스크립트 함수</h2><p>타입스크립트는 자바스크립트와 동일한 형태로 함수를 선언하고 호출할 수 있습니다.</p>
+<p>자바스크립트의 함수는 두 가지로 나눌 수 있습니다.</p>
+<ul>
+<li>기명 함수 (Named function)</li>
+<li>익명 함수 (Anonymous function)</li>
+</ul>
+<p>기명 함수는 <strong>3.1.1. var 선언자의 특징</strong>에서 언급했던 개념인 호이스팅(hoisting)이 발생합니다.</p>
+<blockquote>
+<p><strong>호이스팅</strong>이란 선언한 변수가 스코프의 최상위로 끌어올림 되는 현상이다.</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">add(<span class="number">3</span> ,<span class="number">5</span>); <span class="comment">// 함수 선언하기 전에도 호출 가능 (호이스팅)</span></span><br><span class="line"><span class="comment">// Named function</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params">a, b</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> a + b;</span><br><span class="line">&#125;</span><br><span class="line">add(<span class="number">3</span>, <span class="number">5</span>;</span><br></pre></td></tr></table></figure>
+
+<p>기명 함수와는 다르게 익명 함수는 호이스팅이 발생하지 않습니다. 그렇기 때문에 함수 선언 전에 함수를 호출하면 오류가 발생합니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// substract(5, 3); // 함수 선언하기 전에는 호출 불가능</span></span><br><span class="line"><span class="comment">// Anonymous function</span></span><br><span class="line"><span class="keyword">let</span> substract = <span class="function"><span class="keyword">function</span>(<span class="params">a, b</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> a - b;</span><br><span class="line">&#125;;</span><br><span class="line">substract(<span class="number">5</span>, <span class="number">3</span>);</span><br></pre></td></tr></table></figure>
+
+<h2 id="타입스크립트-함수"><a href="#타입스크립트-함수" class="headerlink" title="타입스크립트 함수"></a>타입스크립트 함수</h2><p>타입스크립트 또한 자바스크립트와 마찬가지로 기명 함수와 익명 함수로 함수를 생성할 수 있습니다.</p>
+<h3 id="함수-타입"><a href="#함수-타입" class="headerlink" title="함수 타입"></a>함수 타입</h3><p>타입스크립트는 함수에도 타입을 선언할 수 있습니다. 타입 지정 대상은 함수로 전달되는 매개변수나 최종 반환되는 값이 될 수 있습니다. 이러한 타입 선언을 통해 타입 안전성을 강화합니다. 타입은 다음과 같이 선언합니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params">a: <span class="built_in">number</span>, b: <span class="built_in">number</span></span>): <span class="title">number</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> a + b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>함수를 할당할 변수에 직접 타입 선언하는 것도 가능합니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> myFunc: <span class="built_in">Function</span> = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>기본적으로 타입스크립트에는 <code>Function</code>이라는 인터페이스가 내장되어있기 때문에 위와 같이 선언만 해도 함수 이외에 다른 값은 할당할 수 없습니다. 그러나 매개변수나 반환 값의 타입에 상관없이 어떤 함수라도 할당될 수 있기 때문에 타입 안정성이 완전히 확보되었다고 보기 힘듭니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> myFunc: <span class="function">(<span class="params">a: <span class="built_in">number</span>, b: <span class="built_in">number</span></span>) =&gt;</span> <span class="built_in">number</span> = add;</span><br></pre></td></tr></table></figure>
+
+<h2 id="매개변수의-활용"><a href="#매개변수의-활용" class="headerlink" title="매개변수의 활용"></a>매개변수의 활용</h2><p>자바스크립트에서는 기본적으로 모든 함수가 가변적으로 인자를 받을 수 있습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params">a, b</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> a + b;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(add(<span class="number">10</span>)); <span class="comment">// NaN</span></span><br><span class="line"><span class="built_in">console</span>.log(add(<span class="number">10</span>, <span class="number">5</span>)); <span class="comment">// 15</span></span><br><span class="line"><span class="built_in">console</span>.log(add(<span class="number">10</span>, <span class="number">5</span>, <span class="number">1</span>)); <span class="comment">// 15</span></span><br></pre></td></tr></table></figure>
+
+<p>타입스크립트에서는 기본적으로 가변 변수를 허용하지 않습니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params">a: <span class="built_in">number</span>, b: <span class="built_in">number</span></span>): <span class="title">number</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> a + b;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(add(<span class="number">1</span>)); <span class="comment">// Error: Expected 2 arguments, but got 1.</span></span><br></pre></td></tr></table></figure>
+
+<p>하지만 이렇게 정해진 숫자의 인자만 받을 수 있다면 유연성이 떨어져서 개발하는 과정에서 불편함이 발생합니다.</p>
+<p>타입스트립트 함수에 정해진 타입과 정해진 수의 인자를 넘기지 않으면 에러를 발생시키므로 함수를 선언할 때 어느 정도의 유연성을 확보해야 함수 오버로딩을 구현할 수 있습니다. 이러한 인자 갯수의 유연성을 확보하는 방법을 이어서 살펴 보겠습니다.</p>
+<h2 id="기본-초기화-매개변수"><a href="#기본-초기화-매개변수" class="headerlink" title="기본 초기화 매개변수"></a>기본 초기화 매개변수</h2><p>타입스크립트 ES6에서 추가된 기본 초기화 매개변수(default-initialized parameter)는 함수의 특정 매개변수에 인수가 전달되지 않으면 매개변수에 설정된 초기값으로 초기화하는 기능입니다.</p>
+<p>ES6 이전의 자바스크립트에서 매개변수로 넘겨받는 값의 초기값을 설정해주고 싶었다면 보통 다음과 같이 할 것입니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">doSomthing</span>(<span class="params">whatever</span>) </span>&#123;</span><br><span class="line">  whatever = whatever || <span class="string">'whatever'</span>; <span class="comment">/* 초기값 설정 */</span></span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>ES6와 타입스크립트에서는 이렇게 합니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">doSomething</span>(<span class="params">whatever = 'whatever' <span class="comment">/* 초기값 설정 */</span></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>타입스크립트에서는 Default 값을 주는 경우에는 타입을 선언하지 않아도 인자의 타입을 추론하므로 선언을 생략해도 무방합니다.</p>
+<p>아래 코드는 기본 초기화 매개변수를 사용한 간단한 예제입니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">globalPhoneNumber</span>(<span class="params"><span class="built_in">number</span>: <span class="built_in">string</span>, countryCode = '+82'</span>): <span class="title">string</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">`<span class="subst">$&#123;countryCode&#125;</span><span class="subst">$&#123;<span class="built_in">number</span>.slice(<span class="number">1</span>)&#125;</span>`</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">globalPhoneNumber(<span class="string">'01015888282'</span>); <span class="comment">// +821015888282</span></span><br><span class="line">globalPhoneNumber(<span class="string">'01015774949'</span>, <span class="string">'+04'</span>); <span class="comment">// +041015774949</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="나머지-매개변수"><a href="#나머지-매개변수" class="headerlink" title="나머지 매개변수"></a>나머지 매개변수</h2><p>나머지 매개변수(rest parameter)는 ES6에서 제안된 특징으로 개수가 정해지지 않은 인수(arguments)를 배열(array)로 받을 수 있는 기능입니다. 이는 <code>...</code>라는 표기법을 통해 나머지 매개변수에 접근할 수 있습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">concat</span>(<span class="params">...restParameter <span class="regexp">/* 나머지 매개변수 */</span></span>) </span>&#123; ... &#125;</span><br></pre></td></tr></table></figure>
+
+<p>나머지 매개변수는 0개 이상의 요소를 받을 수 있습니다. 따라 위 예제의 concat 함수를 호출하려면 최소한 0개 이상의 인수를 전댈해야 합니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">concat</span>(<span class="params">...restParameter</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> restParameter.join(<span class="string">''</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(concat(<span class="string">'a'</span>, <span class="number">1</span>, <span class="literal">true</span>, &#123;&#125;)); <span class="comment">// a1true&#123;&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>위의 concat 함수에 선언된 나머지 매개변수는 타입이 없기 때문에 타입 구분없이 여러 인수를 전달받아 문자열 합치기를 수행합니다. 그러나 이를 의도하고 구현하는 경우는 극히 드물 것입니다. 보통은 문자열 배열을 하나의 문자열로 만들기 위해 위와 같은 함수를 이용할 것입니다. 이런 경우에는 나머지 매개변수에 타입을 추가해 지정한 타입의 인수만을 받도록 제한할 수 있습니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">concat</span>(<span class="params">...restParameter: <span class="built_in">string</span>[]  <span class="comment">/* 나머지 매개변수 타입 */</span></span>): <span class="title">string</span> </span>&#123; ... &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="선택-매개변수"><a href="#선택-매개변수" class="headerlink" title="선택 매개변수"></a>선택 매개변수</h2><p>앞에서 살펴본 나머지 매개변수를 선언하여 가변적으로 인자를 받을 수 있었습니다. 그런데 나머지 매개변수는 최대 개수가 정해져 있지 않기 때문에 불필요한 인수들이 함께 전달될 수 있습니다. 예를 들어 인수의 개수를 1개 혹은 2개로 제한하기 위해서는 ‘선택 매개변수(optional parameter)’를 이용해야 합니다.</p>
+<p>선택 매개변수는 변수명 뒤에 물음표(<code>?</code>)를 붙이는 식으로 선언합니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sum</span>(<span class="params">a: <span class="built_in">number</span>, b?: <span class="built_in">number</span></span>): <span class="title">number</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> a + b;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(sum(<span class="number">1</span>)); <span class="comment">// NaN</span></span><br></pre></td></tr></table></figure>
+
+<p>앞서 기본 초기화 매개변수를 이용해 인수가 생략돼 있을 때 매개변수의 초기값을 설정할 수 있었습니다. 그런데 이 방법은 선택 매개변수와 결합해서 사용할 수 없습니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sum</span>(<span class="params">a: <span class="built_in">number</span>, b?: <span class="built_in">number</span> = 2 <span class="comment">/* 함깨 사용 불가 */</span></span>):<span class="title">number</span> </span>&#123; ... &#125;</span><br></pre></td></tr></table></figure>
+
+<p>아래 코드는 선택 매개변수를 사용한 간단한 예제입니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">makeProfile</span>(<span class="params">name: <span class="built_in">string</span>, toUpper?: <span class="built_in">boolean</span></span>): <span class="title">string</span> </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> username = name;</span><br><span class="line">  <span class="keyword">if</span> (toUpper) &#123;</span><br><span class="line">    username = username.toUpperCase();</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">`hello, <span class="subst">$&#123;username&#125;</span>`</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">makeProfile(<span class="string">'thomas'</span>); <span class="comment">// hello, thomas</span></span><br><span class="line">makeProfile(<span class="string">'hyeonyu'</span>, <span class="literal">true</span>); <span class="comment">// hello, HYEONGYU</span></span><br><span class="line">makeProfile(<span class="string">'goofy'</span>, <span class="literal">false</span>, <span class="number">1</span>); <span class="comment">// Error</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="함수-오버로드"><a href="#함수-오버로드" class="headerlink" title="함수 오버로드"></a>함수 오버로드</h2><p>함수 오버로드(function overloads)는 함수명은 같지만, 매개변수와 반환 타입이 다른 함수를 여러개 선언 할 수 있는 특징을 말합니다. 컴파일 시간에 가장 적합한 오버로드를 선택해 컴파일 함으로 자바스크립 실행 시 런타임 비용이 발생하지 않습니다. 오버로드는 다음과 같이 목록 형태로 선언할 수 있습니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 올바른 예 */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params">a: <span class="built_in">string</span>, b: <span class="built_in">string</span></span>): <span class="title">string</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params">a: <span class="built_in">number</span>, b: <span class="built_in">number</span></span>): <span class="title">number</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params">a: <span class="built_in">any</span>, b: <span class="built_in">any</span></span>): <span class="title">any</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> a + b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>유의해야할 점은 타입스크립트는 자바스크립트로 변환되고 나서도 동일한 형태를 유지해야 한다는 것입니다. 따라서 각 오버로드는 다음처럼 독립된 블록으로 선언하면 안됩니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 잘못된 예 */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params">a: <span class="built_in">string</span>, b: <span class="built_in">string</span></span>): <span class="title">string</span> </span>&#123; ... &#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params">a: <span class="built_in">number</span>, b: <span class="built_in">number</span></span>): <span class="title">number</span> </span>&#123; ... &#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params">a: <span class="built_in">any</span>, b: <span class="built_in">any</span></span>): <span class="title">any</span> </span>&#123; ... &#125;</span><br></pre></td></tr></table></figure>
+
+<p>가장 일반적인(general) 함수 (매개변수를 any 타입으로 선언)의 시그니처를 가장 아래에 선언하고 그 위로 구체적인(specific) 타입을 명시한 함수의 시그니처를 쌓는 방식으로 선언해야 합니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(add(<span class="number">1</span>, <span class="number">2</span>)); <span class="comment">// 3</span></span><br><span class="line"><span class="built_in">console</span>.log(add(<span class="string">'hello '</span>, <span class="string">'world!'</span>)); <span class="comment">// hello world!</span></span><br></pre></td></tr></table></figure>
+
+<p>이때 매개변수의 갯수가 다른 오버로드를 지정할 때는 선택 매개변수를 둬 매개변수 갯수에 변화를 줄 수 있도록 허용할 수 있습니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params">a: <span class="built_in">string</span>, b: <span class="built_in">string</span></span>): <span class="title">string</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params">a: <span class="built_in">number</span>, b: <span class="built_in">number</span></span>): <span class="title">number</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params">a: <span class="built_in">any</span>, b?: <span class="built_in">any</span></span>): <span class="title">any</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (b === <span class="literal">undefined</span>) &#123;</span><br><span class="line">      ...   <span class="comment">// 두번째 인자의 값이 없는 경우</span></span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      ...</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="유니언-타입"><a href="#유니언-타입" class="headerlink" title="유니언 타입"></a>유니언 타입</h3><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">pick</span>(<span class="params">x: &#123; name: <span class="built_in">string</span> &#125;</span>): <span class="title">number</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">pack</span>(<span class="params">x: &#123; month: <span class="built_in">number</span>&#125;</span>) : <span class="title">string</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">pick</span>(<span class="params">x: <span class="built_in">number</span></span>): <span class="title">number</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">pick</span>(<span class="params">x: <span class="built_in">any</span></span>): <span class="title">any</span> </span>&#123; ... &#125;</span><br></pre></td></tr></table></figure>
+
+<p>오버로드로 선언된 함수는 다양한 타입의 인수를 받고 반환 타입도 여러 개입니다. 이처럼 함수의 매개변수와 반환 타입이 다양한 경우에 유니언 타입 형태로도 표현 가능합니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">pick</span>(<span class="params">x: <span class="built_in">number</span> | &#123;name: <span class="built_in">string</span>&#125; | &#123;name: <span class="built_in">number</span>&#125;</span>) <span class="title">number</span> | <span class="title">string</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">pick</span>(<span class="params">x: <span class="built_in">any</span></span>): <span class="title">any</span> </span>&#123; ... &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="객체-리터럴의-선언과-객체-리터럴-타입의-선언"><a href="#객체-리터럴의-선언과-객체-리터럴-타입의-선언" class="headerlink" title="객체 리터럴의 선언과 객체 리터럴 타입의 선언"></a>객체 리터럴의 선언과 객체 리터럴 타입의 선언</h2><p>객체 리터럴의 hello 속성에 선언된 함수는 함수 내부의 스코프에서 다른 객체 속성에 접근하려 할 때 코드 어시스트가 동작하지 않습니다.</p>
+<p><img src="/images/typescript_1.png" alt="windows-telnet-1"></p>
+<p>인터페이스를 이용해 객체 리터럴의 타입을 추가하고 첫 번째 매개변수로 <code>this</code>를 선언하여(반드시 첫 번째 매개변수로 선언해야 한다.) 내부 참조 시에도 코드 어시스트가 동작하도록 할 수 있습니다.</p>
+<p><img src="/images/typescript_2.png" alt="windows-telnet-2"></p>
+<p>컴파일 후에는 타입들은 물론이고 첫 번째 매개변수(this)도 함께 사라집니다.</p>
+<p>객체 내부 함수에서 다른 속성에 접근하려면 인터페이스를 선언한 다음에 this에 객체 리터럴의 타입을 추개해야 합니다. 만약 this에 타입을 강제해서 추가하려면 tsconfig.json의 컴파일 옵션에 <code>noImplicitThis: true</code> 속성을 추가하면 됩니다.</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">"compilerOptions": &#123;</span><br><span class="line">  "noImplicitThis": true,</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/typescript/" rel="tag"># typescript</a>
+              <a href="/tags/function/" rel="tag"># function</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/03/22/typescript_study_2/" rel="prev" title="타입스크립트 스터디 2일차">
+      <i class="fa fa-chevron-left"></i> 타입스크립트 스터디 2일차
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#함수-Funtion"><span class="nav-number">1.</span> <span class="nav-text">함수 (Funtion)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#자바스크립트-함수"><span class="nav-number">1.1.</span> <span class="nav-text">자바스크립트 함수</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#타입스크립트-함수"><span class="nav-number">1.2.</span> <span class="nav-text">타입스크립트 함수</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#함수-타입"><span class="nav-number">1.2.1.</span> <span class="nav-text">함수 타입</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#매개변수의-활용"><span class="nav-number">1.3.</span> <span class="nav-text">매개변수의 활용</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#기본-초기화-매개변수"><span class="nav-number">1.4.</span> <span class="nav-text">기본 초기화 매개변수</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#나머지-매개변수"><span class="nav-number">1.5.</span> <span class="nav-text">나머지 매개변수</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#선택-매개변수"><span class="nav-number">1.6.</span> <span class="nav-text">선택 매개변수</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#함수-오버로드"><span class="nav-number">1.7.</span> <span class="nav-text">함수 오버로드</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#유니언-타입"><span class="nav-number">1.7.1.</span> <span class="nav-text">유니언 타입</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#객체-리터럴의-선언과-객체-리터럴-타입의-선언"><span class="nav-number">1.8.</span> <span class="nav-text">객체 리터럴의 선언과 객체 리터럴 타입의 선언</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Goofy</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Goofy</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
