@@ -27,15 +27,15 @@
 <meta property="og:site_name" content="DevieW">
 <meta property="og:description" content="함수 (Funtion)함수는 애플리케이션의 코드를 구성하는 기본 요소입니다. 타입스크립트의 함수를 살펴보기 전에 먼제 자바스크립트의 함수를 간단히 살펴보고 지나가겠습니다. 자바스크립트 함수타입스크립트는 자바스크립트와 동일한 형태로 함수를 선언하고 호출할 수 있습니다. 자바스크립트의 함수는 두 가지로 나눌 수 있습니다.  기명 함수 (Named functio">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://hyeongyuan.github.io/images/typescript_1.png">
-<meta property="og:image" content="https://hyeongyuan.github.io/images/typescript_2.png">
+<meta property="og:image" content="https://hyeongyuan.github.io/images/typescript_3_1.png">
+<meta property="og:image" content="https://hyeongyuan.github.io/images/typescript_3_2.png">
 <meta property="article:published_time" content="2020-04-01T10:30:00.000Z">
-<meta property="article:modified_time" content="2020-04-03T13:57:35.794Z">
+<meta property="article:modified_time" content="2020-04-13T09:33:35.972Z">
 <meta property="article:author" content="Goofy">
 <meta property="article:tag" content="typescript">
 <meta property="article:tag" content="function">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://hyeongyuan.github.io/images/typescript_1.png">
+<meta name="twitter:image" content="https://hyeongyuan.github.io/images/typescript_3_1.png">
 
 <link rel="canonical" href="https://hyeongyuan.github.io/2020/04/01/typescript_study_3/">
 
@@ -202,7 +202,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-04-03 22:57:35" itemprop="dateModified" datetime="2020-04-03T22:57:35+09:00">2020-04-03</time>
+                <time title="Modified: 2020-04-13 18:33:35" itemprop="dateModified" datetime="2020-04-13T18:33:35+09:00">2020-04-13</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -254,14 +254,14 @@
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">add(<span class="number">3</span> ,<span class="number">5</span>); <span class="comment">// 함수 선언하기 전에도 호출 가능 (호이스팅)</span></span><br><span class="line"><span class="comment">// Named function</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params">a, b</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> a + b;</span><br><span class="line">&#125;</span><br><span class="line">add(<span class="number">3</span>, <span class="number">5</span>;</span><br></pre></td></tr></table></figure>
 
 <p>기명 함수와는 다르게 익명 함수는 호이스팅이 발생하지 않습니다. 그렇기 때문에 함수 선언 전에 함수를 호출하면 오류가 발생합니다.</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// substract(5, 3); // 함수 선언하기 전에는 호출 불가능</span></span><br><span class="line"><span class="comment">// Anonymous function</span></span><br><span class="line"><span class="keyword">let</span> substract = <span class="function"><span class="keyword">function</span>(<span class="params">a, b</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> a - b;</span><br><span class="line">&#125;;</span><br><span class="line">substract(<span class="number">5</span>, <span class="number">3</span>);</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// substract(5, 3); // 함수 선언하기 전에는 호출 불가능</span></span><br><span class="line"><span class="comment">// Anonymous function</span></span><br><span class="line"><span class="keyword">let</span> substract = <span class="function"><span class="keyword">function</span> (<span class="params">a, b</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> a - b;</span><br><span class="line">&#125;;</span><br><span class="line">substract(<span class="number">5</span>, <span class="number">3</span>);</span><br></pre></td></tr></table></figure>
 
 <h2 id="타입스크립트-함수"><a href="#타입스크립트-함수" class="headerlink" title="타입스크립트 함수"></a>타입스크립트 함수</h2><p>타입스크립트 또한 자바스크립트와 마찬가지로 기명 함수와 익명 함수로 함수를 생성할 수 있습니다.</p>
 <h3 id="함수-타입"><a href="#함수-타입" class="headerlink" title="함수 타입"></a>함수 타입</h3><p>타입스크립트는 함수에도 타입을 선언할 수 있습니다. 타입 지정 대상은 함수로 전달되는 매개변수나 최종 반환되는 값이 될 수 있습니다. 이러한 타입 선언을 통해 타입 안전성을 강화합니다. 타입은 다음과 같이 선언합니다.</p>
 <figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params">a: <span class="built_in">number</span>, b: <span class="built_in">number</span></span>): <span class="title">number</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> a + b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>함수를 할당할 변수에 직접 타입 선언하는 것도 가능합니다.</p>
-<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> myFunc: <span class="built_in">Function</span> = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> myFunc: <span class="built_in">Function</span> = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;&#125;;</span><br></pre></td></tr></table></figure>
 
 <p>기본적으로 타입스크립트에는 <code>Function</code>이라는 인터페이스가 내장되어있기 때문에 위와 같이 선언만 해도 함수 이외에 다른 값은 할당할 수 없습니다. 그러나 매개변수나 반환 값의 타입에 상관없이 어떤 함수라도 할당될 수 있기 때문에 타입 안정성이 완전히 확보되었다고 보기 힘듭니다.</p>
 <figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> myFunc: <span class="function">(<span class="params">a: <span class="built_in">number</span>, b: <span class="built_in">number</span></span>) =&gt;</span> <span class="built_in">number</span> = add;</span><br></pre></td></tr></table></figure>
@@ -322,12 +322,20 @@
 <figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">pick</span>(<span class="params">x: <span class="built_in">number</span> | &#123;name: <span class="built_in">string</span>&#125; | &#123;name: <span class="built_in">number</span>&#125;</span>) <span class="title">number</span> | <span class="title">string</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">pick</span>(<span class="params">x: <span class="built_in">any</span></span>): <span class="title">any</span> </span>&#123; ... &#125;</span><br></pre></td></tr></table></figure>
 
 <h2 id="객체-리터럴의-선언과-객체-리터럴-타입의-선언"><a href="#객체-리터럴의-선언과-객체-리터럴-타입의-선언" class="headerlink" title="객체 리터럴의 선언과 객체 리터럴 타입의 선언"></a>객체 리터럴의 선언과 객체 리터럴 타입의 선언</h2><p>객체 리터럴의 hello 속성에 선언된 함수는 함수 내부의 스코프에서 다른 객체 속성에 접근하려 할 때 코드 어시스트가 동작하지 않습니다.</p>
-<p><img src="/images/typescript_1.png" alt="windows-telnet-1"></p>
+<p><img src="/images/typescript_3_1.png" alt="windows-telnet-1"></p>
 <p>인터페이스를 이용해 객체 리터럴의 타입을 추가하고 첫 번째 매개변수로 <code>this</code>를 선언하여(반드시 첫 번째 매개변수로 선언해야 한다.) 내부 참조 시에도 코드 어시스트가 동작하도록 할 수 있습니다.</p>
-<p><img src="/images/typescript_2.png" alt="windows-telnet-2"></p>
+<p><img src="/images/typescript_3_2.png" alt="windows-telnet-2"></p>
 <p>컴파일 후에는 타입들은 물론이고 첫 번째 매개변수(this)도 함께 사라집니다.</p>
 <p>객체 내부 함수에서 다른 속성에 접근하려면 인터페이스를 선언한 다음에 this에 객체 리터럴의 타입을 추개해야 합니다. 만약 this에 타입을 강제해서 추가하려면 tsconfig.json의 컴파일 옵션에 <code>noImplicitThis: true</code> 속성을 추가하면 됩니다.</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">"compilerOptions": &#123;</span><br><span class="line">  "noImplicitThis": true,</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="콜백-함수의-타입-선언과-활용"><a href="#콜백-함수의-타입-선언과-활용" class="headerlink" title="콜백 함수의 타입 선언과 활용"></a>콜백 함수의 타입 선언과 활용</h2><p>콜백 함수(callback function)는 또 다른 함수의 매개변수로 전달될 수 있는 함수입니다. 이는 자바스크립트가 일급 객체이기 때문에 가능한 것 입니다. 여기서 콜백 함수를 전달받는 함수는 콜백 함수보다 상위 처리를 담당하며 <strong>고차 함수(higher-order function)</strong>라고 불립니다. 고차 함수는 하나 이상의 콜백 함수를 전달받거나 하나 이상의 함수를 결과로 반환해 주는 특성이 있습니다.</p>
+<p>대표적인 콜백 함수로는 <code>setTimeout</code> 함수가 있습니다.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'Timer end'</span>);</span><br><span class="line">&#125;, <span class="number">1000</span>);</span><br></pre></td></tr></table></figure>
+
+<p>문제!!</p>
+<p>다음 예제에서 출력되는 값은 무엇일까요? 그렇게 생각한 이유는?</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">  name: <span class="string">'hyeongyu'</span>,</span><br><span class="line">  email: <span class="string">''</span>,</span><br><span class="line"></span><br><span class="line">  setEmail: <span class="function"><span class="keyword">function</span> (<span class="params">email</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.email = email;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">callback</span>(<span class="params">email, cb</span>) </span>&#123;</span><br><span class="line">  cb(email);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">callback(<span class="string">'ahg2656@naver.com'</span>, obj.setEmail);</span><br><span class="line"><span class="built_in">console</span>.log(obj.email);</span><br><span class="line"><span class="comment">// console.log(window.email);</span></span><br></pre></td></tr></table></figure>
 
     </div>
 
@@ -350,7 +358,10 @@
     <a href="/2020/03/22/typescript_study_2/" rel="prev" title="타입스크립트 스터디 2주차">
       <i class="fa fa-chevron-left"></i> 타입스크립트 스터디 2주차
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2020/04/10/method_vs_function/" rel="next" title="알쓸신잡 (Method vs Function)">
+      알쓸신잡 (Method vs Function) <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -416,7 +427,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#함수-Funtion"><span class="nav-number">1.</span> <span class="nav-text">함수 (Funtion)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#자바스크립트-함수"><span class="nav-number">1.1.</span> <span class="nav-text">자바스크립트 함수</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#타입스크립트-함수"><span class="nav-number">1.2.</span> <span class="nav-text">타입스크립트 함수</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#함수-타입"><span class="nav-number">1.2.1.</span> <span class="nav-text">함수 타입</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#매개변수의-활용"><span class="nav-number">1.3.</span> <span class="nav-text">매개변수의 활용</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#기본-초기화-매개변수"><span class="nav-number">1.4.</span> <span class="nav-text">기본 초기화 매개변수</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#나머지-매개변수"><span class="nav-number">1.5.</span> <span class="nav-text">나머지 매개변수</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#선택-매개변수"><span class="nav-number">1.6.</span> <span class="nav-text">선택 매개변수</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#함수-오버로드"><span class="nav-number">1.7.</span> <span class="nav-text">함수 오버로드</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#유니언-타입"><span class="nav-number">1.7.1.</span> <span class="nav-text">유니언 타입</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#객체-리터럴의-선언과-객체-리터럴-타입의-선언"><span class="nav-number">1.8.</span> <span class="nav-text">객체 리터럴의 선언과 객체 리터럴 타입의 선언</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#함수-Funtion"><span class="nav-number">1.</span> <span class="nav-text">함수 (Funtion)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#자바스크립트-함수"><span class="nav-number">1.1.</span> <span class="nav-text">자바스크립트 함수</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#타입스크립트-함수"><span class="nav-number">1.2.</span> <span class="nav-text">타입스크립트 함수</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#함수-타입"><span class="nav-number">1.2.1.</span> <span class="nav-text">함수 타입</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#매개변수의-활용"><span class="nav-number">1.3.</span> <span class="nav-text">매개변수의 활용</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#기본-초기화-매개변수"><span class="nav-number">1.4.</span> <span class="nav-text">기본 초기화 매개변수</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#나머지-매개변수"><span class="nav-number">1.5.</span> <span class="nav-text">나머지 매개변수</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#선택-매개변수"><span class="nav-number">1.6.</span> <span class="nav-text">선택 매개변수</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#함수-오버로드"><span class="nav-number">1.7.</span> <span class="nav-text">함수 오버로드</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#유니언-타입"><span class="nav-number">1.7.1.</span> <span class="nav-text">유니언 타입</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#객체-리터럴의-선언과-객체-리터럴-타입의-선언"><span class="nav-number">1.8.</span> <span class="nav-text">객체 리터럴의 선언과 객체 리터럴 타입의 선언</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#콜백-함수의-타입-선언과-활용"><span class="nav-number">1.9.</span> <span class="nav-text">콜백 함수의 타입 선언과 활용</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -430,7 +441,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-count">6</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -443,7 +454,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-count">5</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>

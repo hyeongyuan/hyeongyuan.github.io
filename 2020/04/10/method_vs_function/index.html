@@ -20,15 +20,21 @@
     var CONFIG = {"hostname":"hyeongyuan.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="DevieW">
-<meta property="og:url" content="https://hyeongyuan.github.io/tags/javascript/index.html">
+  <meta name="description" content="알쓸신잡안녕하세요. 프론트앤드 개발자 토마스입니다. 이번에 알아두면 쓸데 없지만 신기한 자바스크립트 시리즈를 써볼까 합니다. 평소에 개발하면서 사용한 적은 딱히 없지만 한번쯤 궁금했던 것들을 차례대로 소개해보려고 합니다. 여러분은 혹시 자바스크립트에서 Method와 Function의 차이를 알고 계신가요? 저 같은 경우에는 method와 function을">
+<meta property="og:type" content="article">
+<meta property="og:title" content="알쓸신잡 (Method vs Function)">
+<meta property="og:url" content="https://hyeongyuan.github.io/2020/04/10/method_vs_function/index.html">
 <meta property="og:site_name" content="DevieW">
+<meta property="og:description" content="알쓸신잡안녕하세요. 프론트앤드 개발자 토마스입니다. 이번에 알아두면 쓸데 없지만 신기한 자바스크립트 시리즈를 써볼까 합니다. 평소에 개발하면서 사용한 적은 딱히 없지만 한번쯤 궁금했던 것들을 차례대로 소개해보려고 합니다. 여러분은 혹시 자바스크립트에서 Method와 Function의 차이를 알고 계신가요? 저 같은 경우에는 method와 function을">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-04-10T04:00:00.000Z">
+<meta property="article:modified_time" content="2020-04-13T09:29:45.621Z">
 <meta property="article:author" content="Goofy">
+<meta property="article:tag" content="javascript">
+<meta property="article:tag" content="알쓸신잡">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://hyeongyuan.github.io/tags/javascript/">
+<link rel="canonical" href="https://hyeongyuan.github.io/2020/04/10/method_vs_function/">
 
 
 <script id="page-configurations">
@@ -36,12 +42,12 @@
   CONFIG.page = {
     sidebar: "",
     isHome : false,
-    isPost : false,
+    isPost : true,
     lang   : 'en'
   };
 </script>
 
-  <title>Tag: javascript | DevieW</title>
+  <title>알쓸신잡 (Method vs Function) | DevieW</title>
   
 
 
@@ -156,97 +162,129 @@
         <div class="content-wrap">
           
 
-          <div class="content tag">
+          <div class="content post posts-expand">
             
 
+    
   
   
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://hyeongyuan.github.io/2020/04/10/method_vs_function/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Goofy">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DevieW">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          알쓸신잡 (Method vs Function)
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-04-10 13:00:00" itemprop="dateCreated datePublished" datetime="2020-04-10T13:00:00+09:00">2020-04-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-04-13 18:29:45" itemprop="dateModified" datetime="2020-04-13T18:29:45+09:00">2020-04-13</time>
+              </span>
+
+          
   
-  <div class="post-block">
-    <div class="posts-collapse">
-      <div class="collection-title">
-        <h2 class="collection-header">javascript
-          <small>Tag</small>
-        </h2>
-      </div>
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2020/04/10/method_vs_function/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/04/10/method_vs_function/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-    <div class="collection-year">
-      <span class="collection-header">2020</span>
-    </div>
+        <h1 id="알쓸신잡"><a href="#알쓸신잡" class="headerlink" title="알쓸신잡"></a>알쓸신잡</h1><p>안녕하세요. 프론트앤드 개발자 토마스입니다. 이번에 <code>알아두면 쓸데 없지만 신기한 자바스크립트 시리즈</code>를 써볼까 합니다. 평소에 개발하면서 사용한 적은 딱히 없지만 한번쯤 궁금했던 것들을 차례대로 소개해보려고 합니다.</p>
+<p>여러분은 혹시 자바스크립트에서 Method와 Function의 차이를 알고 계신가요?</p>
+<p>저 같은 경우에는 method와 function을 통틀어 <strong>함수</strong>라고 부르며 구분없이 사용해왔습니다. 물론 둘의 차이를 알지 못하더라도 개발에는 전혀 지장이 없었습니다.</p>
+<p>제가 이 둘의 차이를 알게 된 것은 자바스크립트의 <code>this</code>에 대해서 공부하면서 입니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> name = <span class="string">'???'</span>;</span><br><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">  name: <span class="string">'thomas'</span>,</span><br><span class="line">  call: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'hello, '</span> + <span class="keyword">this</span>.name);</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line">obj.call(); <span class="comment">// - (1)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> noObj = ob.call;</span><br><span class="line">noObj(); <span class="comment">// - (2)</span></span><br></pre></td></tr></table></figure>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+<p>자바스크립트를 공부하셨던 분들이라면 위 (1)과 (2)의 결과값이 다르다는 것은 이미 알고 계실 겁니다. 이것이 바로 Method와 Function의 차이입니다.</p>
+<p>그렇다면 어떤게 Method일까요?</p>
+<p>위의 예제는 (1)이 Method이고 (2)가 Function입니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">obj.call();</span><br></pre></td></tr></table></figure>
 
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-04-10T13:00:00+09:00"
-              content="2020-04-10">
-          04-10
-        </time>
-      </div>
+<p>Method는 오브젝트의 프로퍼티에 정의된 Function이라고 생각하면 됩니다. 위와 같이 오브젝트를 통해 해당 Method를 호출할 경우에는 Method 내에서 <code>this</code>는 해당 객체의 인스턴스를 가리킵니다. 그렇기 때문에 <code>this.name</code>은 thomas를 반환하는 것이죠.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">noObj();</span><br></pre></td></tr></table></figure>
 
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/04/10/method_vs_function/" itemprop="url">
-            <span itemprop="name">알쓸신잡 (Method vs Function)</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-01-06T21:36:54+09:00"
-              content="2020-01-06">
-          01-06
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/01/06/value_vs_reference/" itemprop="url">
-            <span itemprop="name">Value vs Reference</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-01-05T13:00:00+09:00"
-              content="2020-01-05">
-          01-05
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/01/05/memoization/" itemprop="url">
-            <span itemprop="name">메모이제이션(Memoization)</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
+<p>반면에 객체가 아닌 변수 noObj에 할당된 것은 단순한 Function입니다. 이 Function이 호출되는 시점에 <code>this</code>는 <code>window</code>를 가리키고 있기 때문에 ???를 반환하는 것 입니다.</p>
+<p>즉, 객체의 프로퍼티로 정의된 함수는 Method만이</p>
 
     </div>
-  </div>
-  
-  
-  
 
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/javascript/" rel="tag"># javascript</a>
+              <a href="/tags/%EC%95%8C%EC%93%B8%EC%8B%A0%EC%9E%A1/" rel="tag"># 알쓸신잡</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/04/01/typescript_study_3/" rel="prev" title="타입스크립트 스터디 3주차">
+      <i class="fa fa-chevron-left"></i> 타입스크립트 스터디 3주차
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
   
 
 
 
           </div>
           
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -293,6 +331,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#알쓸신잡"><span class="nav-number">1.</span> <span class="nav-text">알쓸신잡</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -415,6 +454,26 @@
   }
   // defer loading until the whole page loading is completed
   window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://hyeongyuan.github.io/2020/04/10/method_vs_function/";
+    this.page.identifier = "2020/04/10/method_vs_function/";
+    this.page.title = "알쓸신잡 (Method vs Function)";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://https-hyeongyuan-github-io.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
 </script>
 
 </body>
