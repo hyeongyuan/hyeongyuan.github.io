@@ -193,8 +193,17 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-04-13 18:29:45" itemprop="dateModified" datetime="2020-04-13T18:29:45+09:00">2020-04-13</time>
+                <time title="Modified: 2020-04-13 18:44:08" itemprop="dateModified" datetime="2020-04-13T18:44:08+09:00">2020-04-13</time>
               </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/javascript/" itemprop="url" rel="index"><span itemprop="name">javascript</span></a>
+                </span>
+            </span>
 
           
   
@@ -221,7 +230,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="알쓸신잡"><a href="#알쓸신잡" class="headerlink" title="알쓸신잡"></a>알쓸신잡</h1><p>안녕하세요. 프론트앤드 개발자 토마스입니다. 이번에 <code>알아두면 쓸데 없지만 신기한 자바스크립트 시리즈</code>를 써볼까 합니다. 평소에 개발하면서 사용한 적은 딱히 없지만 한번쯤 궁금했던 것들을 차례대로 소개해보려고 합니다.</p>
+          <h1 id="알쓸신잡"><a href="#알쓸신잡" class="headerlink" title="알쓸신잡"></a>알쓸신잡</h1><p>안녕하세요. 프론트앤드 개발자 구피입니다. 이번에 <code>알아두면 쓸데 없지만 신기한 자바스크립트 시리즈</code>를 써볼까 합니다. 평소에 개발하면서 사용한 적은 딱히 없지만 한번쯤 궁금했던 것들을 차례대로 소개해보려고 합니다.</p>
 <p>여러분은 혹시 자바스크립트에서 Method와 Function의 차이를 알고 계신가요?</p>
 <p>저 같은 경우에는 method와 function을 통틀어 <strong>함수</strong>라고 부르며 구분없이 사용해왔습니다. 물론 둘의 차이를 알지 못하더라도 개발에는 전혀 지장이 없었습니다.</p>
 <p>제가 이 둘의 차이를 알게 된 것은 자바스크립트의 <code>this</code>에 대해서 공부하면서 입니다.</p>
@@ -236,7 +245,6 @@
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">noObj();</span><br></pre></td></tr></table></figure>
 
 <p>반면에 객체가 아닌 변수 noObj에 할당된 것은 단순한 Function입니다. 이 Function이 호출되는 시점에 <code>this</code>는 <code>window</code>를 가리키고 있기 때문에 ???를 반환하는 것 입니다.</p>
-<p>즉, 객체의 프로퍼티로 정의된 함수는 Method만이</p>
 
       
     </div>
@@ -287,7 +295,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-04-13 18:33:35" itemprop="dateModified" datetime="2020-04-13T18:33:35+09:00">2020-04-13</time>
+                <time title="Modified: 2020-04-13 18:42:43" itemprop="dateModified" datetime="2020-04-13T18:42:43+09:00">2020-04-13</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -336,7 +344,7 @@
 <blockquote>
 <p><strong>호이스팅</strong>이란 선언한 변수가 스코프의 최상위로 끌어올림 되는 현상이다.</p>
 </blockquote>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">add(<span class="number">3</span> ,<span class="number">5</span>); <span class="comment">// 함수 선언하기 전에도 호출 가능 (호이스팅)</span></span><br><span class="line"><span class="comment">// Named function</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params">a, b</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> a + b;</span><br><span class="line">&#125;</span><br><span class="line">add(<span class="number">3</span>, <span class="number">5</span>;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">add(<span class="number">3</span>, <span class="number">5</span>); <span class="comment">// 함수 선언하기 전에도 호출 가능 (호이스팅)</span></span><br><span class="line"><span class="comment">// Named function</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params">a, b</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> a + b;</span><br><span class="line">&#125;</span><br><span class="line">add(<span class="number">3</span>, <span class="number">5</span>);</span><br></pre></td></tr></table></figure>
 
 <p>기명 함수와는 다르게 익명 함수는 호이스팅이 발생하지 않습니다. 그렇기 때문에 함수 선언 전에 함수를 호출하면 오류가 발생합니다.</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// substract(5, 3); // 함수 선언하기 전에는 호출 불가능</span></span><br><span class="line"><span class="comment">// Anonymous function</span></span><br><span class="line"><span class="keyword">let</span> substract = <span class="function"><span class="keyword">function</span> (<span class="params">a, b</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> a - b;</span><br><span class="line">&#125;;</span><br><span class="line">substract(<span class="number">5</span>, <span class="number">3</span>);</span><br></pre></td></tr></table></figure>
@@ -349,7 +357,10 @@
 <figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> myFunc: <span class="built_in">Function</span> = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;&#125;;</span><br></pre></td></tr></table></figure>
 
 <p>기본적으로 타입스크립트에는 <code>Function</code>이라는 인터페이스가 내장되어있기 때문에 위와 같이 선언만 해도 함수 이외에 다른 값은 할당할 수 없습니다. 그러나 매개변수나 반환 값의 타입에 상관없이 어떤 함수라도 할당될 수 있기 때문에 타입 안정성이 완전히 확보되었다고 보기 힘듭니다.</p>
-<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> myFunc: <span class="function">(<span class="params">a: <span class="built_in">number</span>, b: <span class="built_in">number</span></span>) =&gt;</span> <span class="built_in">number</span> = add;</span><br></pre></td></tr></table></figure>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> myFunc: <span class="function">(<span class="params">a: <span class="built_in">number</span>, b: <span class="built_in">number</span></span>) =&gt;</span> <span class="built_in">number</span> = add;</span><br></pre></td></tr></table></figure>
+
+<p>위와 같이 함수 타입에 매개변수와 반환 값의 타입을 지정해주면 해당 함수에 대한 타입 안정성을 보장할 수 있습니다. 또한 함수 타입을 따로 선언하게 되면, 비슷한 유형의 함수에 재사용할 수 있습니다.</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> calcType = <span class="function">(<span class="params">a: <span class="built_in">number</span>, b: <span class="built_in">number</span></span>) =&gt;</span> <span class="built_in">number</span>;</span><br><span class="line"><span class="keyword">let</span> add: calcType = <span class="function">(<span class="params">a, b</span>) =&gt;</span> a + b;</span><br><span class="line"><span class="keyword">let</span> multiply: calcType = <span class="function">(<span class="params">a, b</span>) =&gt;</span> a * b;</span><br></pre></td></tr></table></figure>
 
 <h2 id="매개변수의-활용"><a href="#매개변수의-활용" class="headerlink" title="매개변수의 활용"></a>매개변수의 활용</h2><p>자바스크립트에서는 기본적으로 모든 함수가 가변적으로 인자를 받을 수 있습니다.</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params">a, b</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> a + b;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(add(<span class="number">10</span>)); <span class="comment">// NaN</span></span><br><span class="line"><span class="built_in">console</span>.log(add(<span class="number">10</span>, <span class="number">5</span>)); <span class="comment">// 15</span></span><br><span class="line"><span class="built_in">console</span>.log(add(<span class="number">10</span>, <span class="number">5</span>, <span class="number">1</span>)); <span class="comment">// 15</span></span><br></pre></td></tr></table></figure>
