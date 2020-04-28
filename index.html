@@ -162,6 +162,403 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://hyeongyuan.github.io/2020/04/28/typescript-interface/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Goofy">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DevieW">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/04/28/typescript-interface/" class="post-title-link" itemprop="url">typescript-interface</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-04-28 00:00:00 / Modified: 19:02:12" itemprop="dateCreated datePublished" datetime="2020-04-28T00:00:00+09:00">2020-04-28</time>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2020/04/28/typescript-interface/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/04/28/typescript-interface/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="인터페이스"><a href="#인터페이스" class="headerlink" title="인터페이스"></a>인터페이스</h1><h2 id="인터페이스-소개"><a href="#인터페이스-소개" class="headerlink" title="인터페이스 소개"></a>인터페이스 소개</h2><p>인터페이스는 자바스크립트(ES6)가 지원하지 않는 타입스크립트만의 특징입니다. 인터페이스는 타입이며 컴파일 후에는 사라집니다. 인터페이스의 기본적인 선언 형태는 다음과 같습니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// [형식]</span></span><br><span class="line"><span class="keyword">interface</span> Car &#123;</span><br><span class="line">  speed: <span class="built_in">number</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="인터페이스의-역할과-컴파일-결과-분석"><a href="#인터페이스의-역할과-컴파일-결과-분석" class="headerlink" title="인터페이스의 역할과 컴파일 결과 분석"></a>인터페이스의 역할과 컴파일 결과 분석</h2><p> 자바스크립트의 객체는 구조를 고정할 수 없고, 쉽게 변화(flexible)하는 특성이 있습니다. 객체는 유지보수와 확장 그리고 안정성으로 고려해 선언과 동시에 고정할 필요가 있습니다. 인터페이스를 이용하면 객체의 구조를 고정할 수 있습니다. 여기서 알아둘 점은 인터페이스는 컴파일 과정에서 타입 검사의 용도로 사용하고 컴파일 후에는 제거됩니다. 따라서 <code>typeof</code>을 이용해 인터페이스의 타입을 조사할 수 없습니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> ICar &#123; name: <span class="built_in">string</span>; &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> MyCar &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> mCar: ICar = &#123; name: <span class="string">'car'</span> &#125;;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(<span class="keyword">typeof</span> mCar); <span class="comment">// object</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="keyword">typeof</span> MyCar); <span class="comment">// function</span></span><br><span class="line"><span class="comment">// console.log(typeof ICar); // Error: 'ICar' only refers to a type, but is being used as a value here.</span></span><br></pre></td></tr></table></figure>
+
+<p> 타입스크립트에서는 인터페이스가 타입으로 취급되지만, 자바스크립트로 변환되고 나면 더는 존재하지 않으므로 <code>typeof ICar</code> 같은 타입 검사는 유효하지 않습니다.</p>
+<p>ES6로 컴파일된 결과를 살펴보면 인터페이스가 사라졌음을 알 수 있습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyCar</span> </span>&#123;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> mCar = &#123; <span class="attr">name</span>: <span class="string">'car'</span> &#125;;</span><br><span class="line"><span class="built_in">console</span>.log(<span class="keyword">typeof</span> mCar); <span class="comment">// object</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="keyword">typeof</span> MyCar); <span class="comment">// function</span></span><br></pre></td></tr></table></figure>
+
+<p>결론적으로 인터페이스는 타입스크립트를 컴파일할 때 클래스와 객체의 타입 안전성을 확보 하기 위한 용도로 사용되며 ES5, ES6로 컴파일 후에 사라집니다.</p>
+<h2 id="Optional-Properties"><a href="#Optional-Properties" class="headerlink" title="Optional Properties"></a>Optional Properties</h2><p> 인터페이스의 프로퍼티는 반드시 구현되어야 합니다. 하지만 인터페이스의 프로퍼티가 선택적으로 필요한 경우가 있을 수 있습니다. 선택적 프로퍼티(Optional Property)는 프로퍼티명 뒤에 간단히  <code>?</code>를 붙여 사용합니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> UserInfo &#123;</span><br><span class="line">  email: <span class="built_in">string</span>;</span><br><span class="line">  username: <span class="built_in">string</span>;</span><br><span class="line">  age?: <span class="built_in">number</span>;</span><br><span class="line">  address?: <span class="built_in">string</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> userInfo: UserInfo = &#123;</span><br><span class="line">  email: <span class="string">'test@naver.com'</span>,</span><br><span class="line">  username: <span class="string">'hyeongyu'</span>,</span><br><span class="line">  age: <span class="number">28</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(userInfo);</span><br></pre></td></tr></table></figure>
+
+<p>위 코드에서 알 수 있듯이, 인터페이스를 구현하는 클래스에서는 선택적 프로퍼티를 가지고 있지 않더라도 에러가 발생하지 않습니다.</p>
+<h2 id="Readonly-Properties"><a href="#Readonly-Properties" class="headerlink" title="Readonly Properties"></a>Readonly Properties</h2><p> 읽기전용 프로퍼티를 선언할 수 있습니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> Point &#123;</span><br><span class="line">  readonly x: <span class="built_in">number</span>;</span><br><span class="line">  readonly y: <span class="built_in">number</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> p1: Point = &#123; x: <span class="number">10</span>, y: <span class="number">20</span> &#125;;</span><br><span class="line">p1.x = <span class="number">5</span>; <span class="comment">// Error: Cannot assign to 'x' because it is a read-only property.ts(2540)</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="Readonly-Array"><a href="#Readonly-Array" class="headerlink" title="Readonly Array"></a>Readonly Array</h2><p> 읽기 전용 배열을 선언할 수 도 있습니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a: <span class="built_in">number</span>[] = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>];</span><br><span class="line"><span class="keyword">let</span> ro: ReadonlyArray&lt;<span class="built_in">number</span>&gt; = a;</span><br><span class="line">ro[<span class="number">0</span>] = <span class="number">12</span>; <span class="comment">// Error: Index signature in type 'readonly number[]' only permits reading.</span></span><br><span class="line">ro.push(<span class="number">5</span>); <span class="comment">// Error: Property 'push' does not exist on type 'readonly number[]'.</span></span><br><span class="line">ro.length = <span class="number">100</span>; <span class="comment">// Error: annot assign to 'length' because it is a read-only property.</span></span><br><span class="line">a = ro; <span class="comment">// Error: he type 'readonly number[]' is 'readonly' and cannot be assigned to the mutable type 'number[]'.</span></span><br></pre></td></tr></table></figure>
+
+<p><code>a = ro;</code> 와 같이 읽기 전용 배열을 일반 배열로 재할당하는 것도 금지됩니다. 하지만 type assertion을 통해 오버라이드 할 수 있습니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">a = ro <span class="keyword">as</span> <span class="built_in">number</span>[];</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="Indexable-Types"><a href="#Indexable-Types" class="headerlink" title="Indexable Types"></a>Indexable Types</h2><p> 자바스크립트의 객체는 프로퍼티 접근자(Property accessor)를 두 가지 제공합니다. 하나는 점 표기법(Dot notation)이고, 다른 하나는 괄호 표기법(Bracket notation)입니다. 기본적으로 점 표기법을 자주 사용하기는 하지만, 동적으로 프로퍼티에 접근하려는 경우 문자열으로 프로퍼티에 접근할 수 있는 괄호 표기법을 사용하기도 합니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> dict = &#123;</span><br><span class="line">  foo: <span class="number">1</span>,</span><br><span class="line">  bar: <span class="number">2</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="built_in">Object</span>.keys(dict).forEach(<span class="function"><span class="params">k</span> =&gt;</span> <span class="built_in">console</span>.log(dict[k])); <span class="comment">// Error: lement implicitly has an 'any' type because expression of type 'string' can't be used to index type '&#123; foo: number; bar: number; &#125;'.</span></span><br></pre></td></tr></table></figure>
+
+<p> 타입스크립트에서는 <code>dict</code>의 프로퍼티를 동적으로 접근하는 부분에서 컴파일 에러가 발생합니다. 이를 해결하기 위한 방법은 두 가지가 있습니다. 컴파일 옵션 중 <code>noImplicitAny</code> 값을 <code>false</code>로 바꾸는 것과 객체 자체에 _Indexable_하게 만드는 방법이 있습니다. 객체를 Indexable 하게 만드려면 인덱스 시그니처(Index signature)를 사용하면 된다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> Indexable &#123;</span><br><span class="line">  [key: <span class="built_in">string</span>]: <span class="built_in">any</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> dict: Indexable = &#123;</span><br><span class="line">  foo: <span class="number">1</span>,</span><br><span class="line">  bar: <span class="number">2</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="built_in">Object</span>.keys(dict).forEach(<span class="function"><span class="params">k</span> =&gt;</span> <span class="built_in">console</span>.log(dict[k])); <span class="comment">// OK</span></span><br></pre></td></tr></table></figure>
+
+<p> 위에 새로 추가된 인터페이스 내부 <code>[key: string]: any</code>라는 문장이 바로 인덱스 시그니처입니다. 괄호 표현법과 함께 <code>string</code>으로 접근하게 되면 <code>any</code>타입의 무언가를 돌려줄 것이라는 의미다. 여기서는 묵시적으로 <code>any</code> 타입을 리턴하지 않으므로 에러가 발생하지 않는다.</p>
+<h2 id="변수와-인터페이스"><a href="#변수와-인터페이스" class="headerlink" title="변수와 인터페이스"></a>변수와 인터페이스</h2><p>인터페이스는 변수의 타입으로 사용할 수 있습니다. 인터페이스를 타입으로 선언한 변수는 해당 인터페이스를 준수해야 합니다. 이것은 새로운 타입을 정의하는 것과 유사합니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 인터페이스 정의</span></span><br><span class="line"><span class="keyword">interface</span> User &#123;</span><br><span class="line">  email: <span class="built_in">string</span>;</span><br><span class="line">  username: <span class="built_in">string</span>;</span><br><span class="line">  emailVerified: <span class="built_in">boolean</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 변수 user의 타입으로 User 인터페이스 선언</span></span><br><span class="line"><span class="keyword">let</span> user: User;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 변수 user는 User 인터페이스 준수하여 작성</span></span><br><span class="line">user = &#123; email: <span class="string">'test@naver.com'</span>, username: <span class="string">'hyeongyu'</span>, emailVerified: <span class="literal">false</span> &#125;;</span><br></pre></td></tr></table></figure>
+
+<p>인터페이스를 사용하여 함수 매개변수의 타입을 선언할 수 있습니다. 마찬가지로 해당 함수의 매개변수는 지정한 인터페이스를 준수해야 합니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 인터페이스 정의</span></span><br><span class="line"><span class="keyword">interface</span> User &#123;</span><br><span class="line">  email: <span class="built_in">string</span>;</span><br><span class="line">  username: <span class="built_in">string</span>;</span><br><span class="line">  emailVerified: <span class="built_in">boolean</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> users: User[] = [];</span><br><span class="line"></span><br><span class="line"><span class="comment">// 매개변수 user의 타입으로 User 인터페이스를 선언</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">addUser</span>(<span class="params">user: User</span>) </span>&#123;</span><br><span class="line">  users = [...users, user];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> newUser = &#123; email: <span class="string">'ahg2656@naver.com'</span>, username: <span class="string">'hyeongyu'</span>, emailVerified: <span class="literal">false</span> &#125;;</span><br><span class="line">addUser(newUser);</span><br><span class="line"><span class="built_in">console</span>.log(users);	<span class="comment">// [&#123;email:'test@naver.com',username:'hyeongyu',emailVerified:false&#125;]</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="함수와-인터페이스"><a href="#함수와-인터페이스" class="headerlink" title="함수와 인터페이스"></a>함수와 인터페이스</h2><p>프로퍼티을 가진 객체를 설명하는 것 외에도 인터페이스를 이용해 함수 타입을 정의할 수 있습니다. </p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> IFormat &#123;</span><br><span class="line">  (data: <span class="built_in">string</span>, toUpper?: <span class="built_in">boolean</span>): <span class="built_in">string</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>함수의 인터페이스에는 타입이 선언된 프로퍼티와 리턴 타입을 정의합니다. 함수 인터페이스를 구현하는 함수는 인터페이스를 준수해야 합니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> format: IFormat = <span class="function"><span class="keyword">function</span> (<span class="params">data: <span class="built_in">string</span>, toUpper: <span class="built_in">boolean</span></span>) </span>&#123;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>아래 코드는 함수 타입의 변수를 만들고 같은 타입의 함수를 할당하는 방법을 보여줍니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> IFormat &#123;</span><br><span class="line">  (data: <span class="built_in">string</span>, toUpper: <span class="built_in">boolean</span>): <span class="built_in">string</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> customFormat: IFormat = <span class="function"><span class="keyword">function</span> (<span class="params">str: <span class="built_in">string</span>, isUpper?: <span class="built_in">boolean</span></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (isUpper) &#123;</span><br><span class="line">    <span class="keyword">return</span> str.toUpperCase();</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> str.toLowerCase();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(customFormat(<span class="string">'Hello'</span>, <span class="literal">false</span>));</span><br></pre></td></tr></table></figure>
+
+<p>이 때, 실제 함수 정의와 인터페이스에서의 매개변수 이름은 꼭 같을 필요는 없습니다. 즉, 위처럼 프로퍼티명을 <code>toUpper</code>가 아닌 <code>isUpper</code>로 바꾸어 써도 프로퍼티들의 타입 순서만 맞는다면 에러는 발생하지 않습니다.</p>
+<h2 id="클래스와-인터페이스"><a href="#클래스와-인터페이스" class="headerlink" title="클래스와 인터페이스"></a>클래스와 인터페이스</h2><p>클래스 선언문의 <code>implements</code> 뒤에 인터페이스를 선언하면 해당 클래스는 지정된 인터페이스를 반드시 구현해야 합니다. 이를 통해 인터페이스를 구현하는 클래스의 일관성을 유지할 수 있는 장점들을 가집니다. 인터페이스는 프로퍼티와 메소드를 가질 수 있다는 점에서 클래스와 유사하지만 직접 인스턴스를 생성할 수는 없습니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 인터페이스 정의</span></span><br><span class="line"><span class="keyword">interface</span> IUser &#123;</span><br><span class="line">  email: <span class="built_in">string</span>;</span><br><span class="line">  username: <span class="built_in">string</span>;</span><br><span class="line">  emailVerified: <span class="built_in">boolean</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// User 클래스는 IUser 인터페이스를 구현해야 합니다.</span></span><br><span class="line"><span class="keyword">class</span> User <span class="keyword">implements</span> IUser &#123;</span><br><span class="line">  <span class="keyword">constructor</span>(<span class="params"><span class="keyword">public</span> email: <span class="built_in">string</span>, <span class="keyword">public</span> username: <span class="built_in">string</span>, <span class="keyword">public</span> emailVerified: <span class="built_in">boolean</span></span>) &#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> user = <span class="keyword">new</span> User(<span class="string">'test@naver.com'</span>, <span class="string">'hyeongyu'</span>, <span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(user);</span><br></pre></td></tr></table></figure>
+
+<p>인터페이스는 매개변수뿐만 아니라 메소드도 포함할 수 있습니다. 단, 모든 메소드는 추상 메소드이어야 합니다. 그리고 인터페이스를 구현하는 클래스는 인터페이스에서 정의한 매개변수와 추상 메소드를 반드시 구현해야 합니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 인터페이스 정의</span></span><br><span class="line"><span class="keyword">interface</span> IPerson &#123;</span><br><span class="line">  name: <span class="built_in">string</span>;</span><br><span class="line">  sayHello(): <span class="built_in">void</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> Person <span class="keyword">implements</span> IPerson &#123;</span><br><span class="line">  <span class="comment">// 인터페이스에서 정의한 프로퍼티 구현</span></span><br><span class="line">  <span class="keyword">constructor</span>(<span class="params"><span class="keyword">public</span> name: <span class="built_in">string</span></span>) &#123; &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 인터페이스에서 정의한 추상 메소드 구현</span></span><br><span class="line">  sayHello() &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">`Hello, <span class="subst">$&#123;<span class="keyword">this</span>.name&#125;</span>`</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">greeter</span>(<span class="params">person: IPerson</span>): <span class="title">void</span> </span>&#123;</span><br><span class="line">  person.sayHello();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> me = <span class="keyword">new</span> Person(<span class="string">'An'</span>);</span><br><span class="line">greeter(me);</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="하이브리드-타입"><a href="#하이브리드-타입" class="headerlink" title="하이브리드 타입"></a>하이브리드 타입</h2><p>메서드와 프로퍼티를 모두 가진 하이브리드 타입의 인터페이스도 있습니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> Counter &#123;</span><br><span class="line">  (start: <span class="built_in">number</span>): <span class="built_in">string</span>;</span><br><span class="line">  interval: <span class="built_in">number</span>;</span><br><span class="line">  reset(): <span class="built_in">void</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getCounter</span>(<span class="params"></span>): <span class="title">Counter</span> </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> counter = &lt;Counter&gt;<span class="function"><span class="keyword">function</span>(<span class="params">start: <span class="built_in">number</span></span>) </span>&#123;&#125;;</span><br><span class="line">  counter.interval = <span class="number">123</span>;</span><br><span class="line">  counter.reset = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;;</span><br><span class="line">  <span class="keyword">return</span> counter;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> c = getCounter();</span><br><span class="line">c(<span class="number">10</span>);</span><br><span class="line">c.reset();</span><br><span class="line">c.interval = <span class="number">5.0</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="Duck-Typing"><a href="#Duck-Typing" class="headerlink" title="Duck Typing"></a>Duck Typing</h2><p>인터페이스를 구현하였다는 것만이 타입 체크를 통과할 수 있는 유일한 방법이 아닙니다. 타입 체크에서 가장 중요한 것은 실제로 값을 가지고 있는 것 입니다. 아래의 예를 살펴 보겠습니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> IDuck &#123;</span><br><span class="line">  quack(): <span class="built_in">void</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> Duck <span class="keyword">implements</span> IDuck &#123;</span><br><span class="line">  quack() &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'꽥!'</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> Person &#123;</span><br><span class="line">  quack() &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'나도 꽥!'</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">makeSomeNoiseWith</span>(<span class="params">duck: IDuck</span>): <span class="title">void</span> </span>&#123;</span><br><span class="line">  duck.quack();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">makeSomeNoiseWith(<span class="keyword">new</span> Duck()); <span class="comment">// 꽥!</span></span><br><span class="line">makeSomeNoiseWith(<span class="keyword">new</span> Person()); <span class="comment">// 나도 꽥!</span></span><br></pre></td></tr></table></figure>
+
+<p>덕 타이핑은 어떤 객체가 특정 인터페이스에서 명시하는 메소드를 가지고 있다면 해당 객체가 그 인터페이스를 구현한 것으로 보는 것이다. 즉, <code>Duck</code> 클래스뿐 아니라 <code>Person</code> 클래스 또한 <code>makeSomeNoiseWith</code>의 인자로 넘겨도 문제가 없습니다. 이것이 바로 덕 타이핑의 효과라고 할 수 있습니다.</p>
+<p> <code>Person</code> 클래스에서 <code>quack</code> 메소드를 제거하면 컴파일 에러가 발생합니다. 이를 통해 개발자는 런타임에 메소드 검사를 하지 않고도 런타임 에러를 방지할 수 있습니다.</p>
+<h2 id="인터페이스-상속"><a href="#인터페이스-상속" class="headerlink" title="인터페이스 상속"></a>인터페이스 상속</h2><p>인터페이스는 <code>extends</code> 키워드를 사용하여 인터페이스 또는 클래스를 상속받을 수 있습니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> Pserson &#123;</span><br><span class="line">  name: <span class="built_in">string</span>;</span><br><span class="line">  age?: <span class="built_in">number</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">interface</span> Student <span class="keyword">extends</span> Person &#123;</span><br><span class="line">  grade: <span class="built_in">number</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> student: Student = &#123;</span><br><span class="line">  name: <span class="string">"An"</span>,</span><br><span class="line">  age: <span class="number">29</span>,</span><br><span class="line">  grade: <span class="number">5</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>복수의 인터페이스를 상속받을 수 도 있습니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> Person &#123;</span><br><span class="line">  name: <span class="built_in">string</span>;</span><br><span class="line">  age?: <span class="built_in">number</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">interface</span> Developer &#123;</span><br><span class="line">  skills: <span class="built_in">string</span>[];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">interface</span> FrontDeveloper <span class="keyword">extends</span> Person, Developer &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> reactDeveloper: FrontDeveloper = &#123;</span><br><span class="line">  name: <span class="string">'An'</span>,</span><br><span class="line">  age: <span class="number">29</span>,</span><br><span class="line">  skills: [<span class="string">'Javascript'</span>, <span class="string">'React'</span>],</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>인터페이스는 인터페이스 뿐만 아니라 클래스도 상속받을 수 있습니다. 단, 클래스의 모든 멤버(public, protected, private)가 상속되지만 구현까지 상속하지는 않습니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> Person &#123;</span><br><span class="line">  <span class="keyword">constructor</span>(<span class="params"><span class="keyword">public</span> name: <span class="built_in">string</span>, <span class="keyword">public</span> age: <span class="built_in">number</span></span>) &#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">interface</span> Developer <span class="keyword">extends</span> Person &#123;</span><br><span class="line">  skills: <span class="built_in">string</span>[];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> reactDeveloper: Developer = &#123;</span><br><span class="line">  name: <span class="string">'An'</span>,</span><br><span class="line">  age: <span class="number">29</span>,</span><br><span class="line">  skills: [<span class="string">'javascript'</span>, <span class="string">'react'</span>],</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://hyeongyuan.github.io/2020/04/14/mac-key-tip/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Goofy">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DevieW">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/04/14/mac-key-tip/" class="post-title-link" itemprop="url">맥 유저를 위한 작은 팁</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-04-14 13:00:00 / Modified: 16:20:26" itemprop="dateCreated datePublished" datetime="2020-04-14T13:00:00+09:00">2020-04-14</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/mac/" itemprop="url" rel="index"><span itemprop="name">mac</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2020/04/14/mac-key-tip/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/04/14/mac-key-tip/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>많은 개발자분들이 마크다운 형식으로 개발 관련 글들을 작성하는 것으로 알고 있습니다.</p>
+<p>영어만으로 작성을 하면 불편함을 못 느낄 수 있지만 한글을 사용하는 중에 백틱(`)을 사용하려다 깊은 빡침을 느낀 적이 있으실 겁니다. 왜냐하면 한글인 상태에서 백틱을 입력하면 <code>₩</code>가 입력되기 때문입니다.</p>
+<p>저와 같은 경험과 빡침을 느끼신 분들을 위한 작은 팁 하나 드리겠습니다. 아래 명령어를 터미널에 입력하시게 되면 이 사소하지만 불편한 점이 해결됩니다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">~ $ <span class="keyword">if</span> ! [ -f ~/Library/KeyBindings/DefaultkeyBinding.dict ]; <span class="keyword">then</span> mkdir -p ~/Library/KeyBindings &amp;&amp; <span class="built_in">echo</span> <span class="string">'&#123;"₩" = ("insertText:", "\`"); "~4" = ("insertText:","₩");&#125;'</span> &gt; ~/Library/KeyBindings/DefaultkeyBinding.dict; <span class="keyword">fi</span></span><br></pre></td></tr></table></figure>
+
+<p>터미널에 입력 한 뒤, 재부팅을 진행해주세요. 그리고 한글인 상태에서 백틱을 입력해보시면 마법을 보실 수 있습니다.</p>
+<p>혹시 위의 설정을 없애고 초기 상태로 돌리시고 싶으신 분들은 아래 명령어를 입력하시면 됩니다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rm -rf ~/Library/KeyBindings/DefaultkeyBinding.dict</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://hyeongyuan.github.io/2020/04/14/mysql-uninstall/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Goofy">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DevieW">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/04/14/mysql-uninstall/" class="post-title-link" itemprop="url">Mac 유저를 위한 MySQL 설치 및 삭제</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-04-14 11:00:00 / Modified: 13:22:07" itemprop="dateCreated datePublished" datetime="2020-04-14T11:00:00+09:00">2020-04-14</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/mysql/" itemprop="url" rel="index"><span itemprop="name">mysql</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2020/04/14/mysql-uninstall/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/04/14/mysql-uninstall/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Mac에서-MySQL-삭제하는-방법"><a href="#Mac에서-MySQL-삭제하는-방법" class="headerlink" title="Mac에서 MySQL 삭제하는 방법"></a>Mac에서 MySQL 삭제하는 방법</h1><ul>
+<li><code>brew install mysql</code>로 설치했을경우</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">~ $ sudo rm -rf /usr/<span class="built_in">local</span>/var/mysql</span><br><span class="line">~ $ sudo rm -rf /usr/<span class="built_in">local</span>/bin/mysql*</span><br><span class="line">~ $ sudo rm -rf /usr/<span class="built_in">local</span>/Cellar/mysql</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>MySQL 홈페이지에서 DMG파일로 설치했을 경우</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">~ $ sudo rm -rf /usr/<span class="built_in">local</span>/mysql*</span><br><span class="line">~ $ sudo rm -rf /Library/PreferencePanes/My*</span><br><span class="line">~ $ sudo rm -rf /var/db/receipts/com.mysql.*</span><br></pre></td></tr></table></figure>
+
+<p>파일 삭제 후 재부팅하는 것을 권장드립니다.</p>
+<h1 id="Homebrew를-이용한-설치"><a href="#Homebrew를-이용한-설치" class="headerlink" title="Homebrew를 이용한 설치"></a>Homebrew를 이용한 설치</h1><p>Homebrew를 이용해 MySQL을 재설치 해보자</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">~ $ brew update</span><br><span class="line">Already up-to-date.</span><br><span class="line"></span><br><span class="line">~ $ brew install mysql</span><br><span class="line">==&gt; Downloading https://homebrew.bintray.com/bottles/mysql-8.0.19.mojave.bottle.</span><br><span class="line">==&gt; Downloading from https://akamai.bintray.com/23/233aa7bfef136a19a02d443b9b2d8</span><br><span class="line"><span class="comment">######################################################################## 100.0%</span></span><br><span class="line">==&gt; Pouring mysql-8.0.19.mojave.bottle.2.tar.gz</span><br><span class="line">==&gt; /usr/<span class="built_in">local</span>/Cellar/mysql/8.0.19/bin/mysqld --initialize-insecure --user=hyeon</span><br><span class="line">==&gt; Caveats</span><br><span class="line">We<span class="string">'ve installed your MySQL database without a root password. To secure it run:</span></span><br><span class="line"><span class="string">    mysql_secure_installation</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">MySQL is configured to only allow connections from localhost by default</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">To connect run:</span></span><br><span class="line"><span class="string">    mysql -uroot</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">To have launchd start mysql now and restart at login:</span></span><br><span class="line"><span class="string">  brew services start mysql</span></span><br><span class="line"><span class="string">Or, if you don'</span>t want/need a background service you can just run:</span><br><span class="line">  mysql.server start</span><br><span class="line">==&gt; Summary</span><br><span class="line">🍺  /usr/<span class="built_in">local</span>/Cellar/mysql/8.0.19: 286 files, 288.7MB</span><br></pre></td></tr></table></figure>
+
+<p>Homebrew를 이용하기 전 반드시 <code>brew update</code> 명령어를 이용해서 최신 버전으로 업데이트해주세요.</p>
+<p>설치가 정상적으로 완료되었는지, 확인해볼까요?</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">~ $ brew search mysql</span><br><span class="line"><span class="comment"># ==&gt; Formulae</span></span><br><span class="line"><span class="comment"># automysqlbackup            mysql-client@5.7           mysql-search-replace</span></span><br><span class="line"><span class="comment"># mysql ✔                    mysql-connector-c++        mysql@5.6</span></span><br><span class="line"><span class="comment"># mysql++                    mysql-connector-c++@1.1    mysql@5.7</span></span><br><span class="line"><span class="comment"># mysql-client               mysql-sandbox              mysqltuner</span></span><br><span class="line"><span class="comment"># ==&gt; Casks</span></span><br><span class="line"><span class="comment"># mysql-connector-python     mysql-utilities            navicat-for-mysql</span></span><br><span class="line"><span class="comment"># mysql-shell                mysqlworkbench             sqlpro-for-mysql</span></span><br></pre></td></tr></table></figure>
+
+<p>위에 mysql이 보입니다.<br>그럼 이제 MySQL를 시작하고 접속해 봅시다. 현재 <code>root</code> 사용자는 비밀번호가 없는 상태입니다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">~ $ brew services start mysql</span><br><span class="line"><span class="comment"># ==&gt; Successfully started `mysql` (label: homebrew.mxcl.mysql)</span></span><br><span class="line"></span><br><span class="line">~ $ mysql -uroot</span><br><span class="line"><span class="comment"># Welcome to the MySQL monitor.  Commands end with ; or \g.</span></span><br><span class="line"><span class="comment"># Your MySQL connection id is 8</span></span><br><span class="line"><span class="comment"># Server version: 8.0.19 Homebrew</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># Copyright (c) 2000, 2020, Oracle and/or its affiliates. All rights reserved.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># Oracle is a registered trademark of Oracle Corporation and/or its</span></span><br><span class="line"><span class="comment"># affiliates. Other names may be trademarks of their respective</span></span><br><span class="line"><span class="comment"># owners.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># mysql&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>위와 같이 실행된다면 서비스가 정상적으로 실행되었고 <code>root</code>라는 계정으로 해당 서비스에 접속한 것 입니다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># mysql&gt; exit</span></span><br><span class="line"><span class="comment"># Bye</span></span><br></pre></td></tr></table></figure>
+
+<p><code>exit</code>을 입력하면 접속된 서비스에서 나올 수 있습니다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">~ $ mysql_secure_installation</span><br><span class="line"><span class="comment"># Securing the MySQL server deployment.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># Connecting to MySQL using a blank password.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># VALIDATE PASSWORD COMPONENT can be used to test passwords</span></span><br><span class="line"><span class="comment"># and improve security. It checks the strength of password</span></span><br><span class="line"><span class="comment"># and allows the users to set only those passwords which are</span></span><br><span class="line"><span class="comment"># secure enough. Would you like to setup VALIDATE PASSWORD component?</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># Press y|Y for Yes, any other key for No:</span></span><br></pre></td></tr></table></figure>
+
+<p>비밀번호 가이드 설정에 대한 질문입니다.</p>
+<p>Yes - 복잡한 비밀번호 설정 (ex. “q1w2e3r4”와 같은 조합형(?) 비밀번호를 설정하여야 합니다.)<br>No - 쉬운 비밀번호 설정 (ex. “1234”처럼 쉬운 비밀번호를 설정할 수 있습니다.)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Press y|Y for Yes, any other key for No: N</span><br><span class="line">Please set the password for root here.</span><br><span class="line"></span><br><span class="line">New password:</span><br><span class="line"></span><br><span class="line">Re-enter new password:</span><br><span class="line">By default, a MySQL installation has an anonymous user,</span><br><span class="line">allowing anyone to log into MySQL without having to have</span><br><span class="line">a user account created for them. This is intended only for</span><br><span class="line">testing, and to make the installation go a bit smoother.</span><br><span class="line">You should remove them before moving into a production</span><br><span class="line">environment.</span><br><span class="line"></span><br><span class="line">Remove anonymous users? (Press y|Y for Yes, any other key for No) :</span><br></pre></td></tr></table></figure>
+
+<p>사용자 설정을 묻는 질문입니다.</p>
+<p>Yes - 접속하는 경우 “mysql -uroot”처럼 -u 옵션 필요<br>No - 접속하는 경우 “mysql”처럼 -u 옵션 불필요</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Remove anonymous users? (Press y|Y for Yes, any other key for No) : Y</span><br><span class="line">Success.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Normally, root should only be allowed to connect from</span><br><span class="line">&#39;localhost&#39;. This ensures that someone cannot guess at</span><br><span class="line">the root password from the network.</span><br><span class="line"></span><br><span class="line">Disallow root login remotely? (Press y|Y for Yes, any other key for No) :</span><br></pre></td></tr></table></figure>
+
+<p>다른 IP에서 root 아이디로 원격접속을 설정하는 질문입니다.</p>
+<p>Yes - 원격접속 불가능<br>No - 원격접속 가능</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Disallow root login remotely? (Press y|Y for Yes, any other key for No) : Y</span><br><span class="line">Success.</span><br><span class="line"></span><br><span class="line">By default, MySQL comes with a database named &#39;test&#39; that</span><br><span class="line">anyone can access. This is also intended only for testing,</span><br><span class="line">and should be removed before moving into a production</span><br><span class="line">environment.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Remove test database and access to it? (Press y|Y for Yes, any other key for No) :</span><br></pre></td></tr></table></figure>
+
+<p>Test 데이터베이스를 설정하는 질문입니다.</p>
+<p>Yes - Test 데이터베이스 제거<br>No - Test 데이터베이스 유지</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Remove test database and access to it? (Press y|Y for Yes, any other key for No) : Y</span><br><span class="line"> - Dropping test database...</span><br><span class="line">Success.</span><br><span class="line"></span><br><span class="line"> - Removing privileges on test database...</span><br><span class="line">Success.</span><br><span class="line"></span><br><span class="line">Reloading the privilege tables will ensure that all changes</span><br><span class="line">made so far will take effect immediately.</span><br><span class="line"></span><br><span class="line">Reload privilege tables now? (Press y|Y for Yes, any other key for No) :</span><br></pre></td></tr></table></figure>
+
+<p>변경된 권한을 테이블에 적용하는 설정에 대한 질문입니다.</p>
+<p>Yes - 적용시킨다.<br>No - 적용시키지 않는다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Reload privilege tables now? (Press y|Y for Yes, any other key for No) : Y</span><br><span class="line">Success.</span><br><span class="line"></span><br><span class="line">All done!</span><br></pre></td></tr></table></figure>
+
+<p>이제 <code>root</code> 사용자의 비밀번호가 설정되었습니다. 확인해볼까요?</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">~ $ mysql -uroot</span><br><span class="line"><span class="comment"># ERROR 1045 (28000): Access denied for user 'root'@'localhost' (using password: NO)</span></span><br></pre></td></tr></table></figure>
+
+<p>위에선 실행 가능했던 명령이 <code>Access denied for user ~</code>라며 접속이 거부되었습니다.</p>
+<p>그렇다는 것은 비밀번호가 정상적으로 설정되었다는 의미입니다.</p>
+<p>이번엔 비밀번호를 입력하여 접속 시도해보겠습니다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">~ $ mysql -uroot -p</span><br><span class="line"><span class="comment"># Enter password:</span></span><br><span class="line"><span class="comment"># Welcome to the MySQL monitor.  Commands end with ; or \g.</span></span><br><span class="line"><span class="comment"># Your MySQL connection id is 13</span></span><br><span class="line"><span class="comment"># Server version: 8.0.19 Homebrew</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># Copyright (c) 2000, 2020, Oracle and/or its affiliates. All rights reserved.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># Oracle is a registered trademark of Oracle Corporation and/or its</span></span><br><span class="line"><span class="comment"># affiliates. Other names may be trademarks of their respective</span></span><br><span class="line"><span class="comment"># owners.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># mysql&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>비밀번호가 일치한다면 성공적으로 접속되는 것을 확인할 수 있습니다!</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># mysql&gt; status;</span></span><br><span class="line"><span class="comment"># --------------</span></span><br><span class="line"><span class="comment"># mysql  Ver 8.0.19 for osx10.14 on x86_64 (Homebrew)</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># Connection id:		13</span></span><br><span class="line"><span class="comment"># Current database:</span></span><br><span class="line"><span class="comment"># Current user:		root@localhost</span></span><br><span class="line"><span class="comment"># SSL:			Not in use</span></span><br><span class="line"><span class="comment"># Current pager:		less</span></span><br><span class="line"><span class="comment"># Using outfile:		''</span></span><br><span class="line"><span class="comment"># Using delimiter:	;</span></span><br><span class="line"><span class="comment"># Server version:		8.0.19 Homebrew</span></span><br><span class="line"><span class="comment"># Protocol version:	10</span></span><br><span class="line"><span class="comment"># Connection:		Localhost via UNIX socket</span></span><br><span class="line"><span class="comment"># Server characterset:	utf8mb4 &lt;----------</span></span><br><span class="line"><span class="comment"># Db     characterset:	utf8mb4 &lt;----------</span></span><br><span class="line"><span class="comment"># Client characterset:	utf8mb4 &lt;----------</span></span><br><span class="line"><span class="comment"># Conn.  characterset:	utf8mb4 &lt;----------</span></span><br><span class="line"><span class="comment"># UNIX socket:		/tmp/mysql.sock</span></span><br><span class="line"><span class="comment"># Binary data as:		Hexadecimal</span></span><br><span class="line"><span class="comment"># Uptime:			1 hour 9 min 46 sec</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># Threads: 2  Questions: 21  Slow queries: 0  Opens: 130  Flush tables: 3  Open tables: 48  Queries # per second avg: 0.005</span></span><br><span class="line"><span class="comment"># --------------</span></span><br></pre></td></tr></table></figure>
+
+<p>마지막으로 <code>status;</code> 명령어를 입력 후,</p>
+<p>characterset 설정이 전부 “utf8”인지 확인해주세요.</p>
+<p>기본적으로 “utf8”로 설정이 되어있지 않다면 설정을 바꿔주셔야 합니다.</p>
+<h1 id="정리"><a href="#정리" class="headerlink" title="정리"></a>정리</h1><ol start="0">
+<li><p>MySQL 서버 확인 : brew services list</p>
+</li>
+<li><p>MySQL 서버 시작 : brew services start mysql</p>
+</li>
+<li><p>MySQL DB 로그인 : mysql -uroot -p</p>
+</li>
+<li><p>MySQL DB 로그아웃 : exit 또는 quit</p>
+</li>
+<li><p>MySQL 서버 종료 : brew services stop mysql</p>
+</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="https://hyeongyuan.github.io/2020/04/10/method_vs_function/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -295,7 +692,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-04-13 18:42:43" itemprop="dateModified" datetime="2020-04-13T18:42:43+09:00">2020-04-13</time>
+                <time title="Modified: 2020-04-13 19:40:42" itemprop="dateModified" datetime="2020-04-13T19:40:42+09:00">2020-04-13</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -370,7 +767,7 @@
 
 <p>하지만 이렇게 정해진 숫자의 인자만 받을 수 있다면 유연성이 떨어져서 개발하는 과정에서 불편함이 발생합니다.</p>
 <p>타입스트립트 함수에 정해진 타입과 정해진 수의 인자를 넘기지 않으면 에러를 발생시키므로 함수를 선언할 때 어느 정도의 유연성을 확보해야 함수 오버로딩을 구현할 수 있습니다. 이러한 인자 갯수의 유연성을 확보하는 방법을 이어서 살펴 보겠습니다.</p>
-<h2 id="기본-초기화-매개변수"><a href="#기본-초기화-매개변수" class="headerlink" title="기본 초기화 매개변수"></a>기본 초기화 매개변수</h2><p>타입스크립트 ES6에서 추가된 기본 초기화 매개변수(default-initialized parameter)는 함수의 특정 매개변수에 인수가 전달되지 않으면 매개변수에 설정된 초기값으로 초기화하는 기능입니다.</p>
+<h3 id="기본-초기화-매개변수"><a href="#기본-초기화-매개변수" class="headerlink" title="기본 초기화 매개변수"></a>기본 초기화 매개변수</h3><p>타입스크립트 ES6에서 추가된 기본 초기화 매개변수(default-initialized parameter)는 함수의 특정 매개변수에 인수가 전달되지 않으면 매개변수에 설정된 초기값으로 초기화하는 기능입니다.</p>
 <p>ES6 이전의 자바스크립트에서 매개변수로 넘겨받는 값의 초기값을 설정해주고 싶었다면 보통 다음과 같이 할 것입니다.</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">doSomthing</span>(<span class="params">whatever</span>) </span>&#123;</span><br><span class="line">  whatever = whatever || <span class="string">'whatever'</span>; <span class="comment">/* 초기값 설정 */</span></span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -381,7 +778,7 @@
 <p>아래 코드는 기본 초기화 매개변수를 사용한 간단한 예제입니다.</p>
 <figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">globalPhoneNumber</span>(<span class="params"><span class="built_in">number</span>: <span class="built_in">string</span>, countryCode = '+82'</span>): <span class="title">string</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">`<span class="subst">$&#123;countryCode&#125;</span><span class="subst">$&#123;<span class="built_in">number</span>.slice(<span class="number">1</span>)&#125;</span>`</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">globalPhoneNumber(<span class="string">'01015888282'</span>); <span class="comment">// +821015888282</span></span><br><span class="line">globalPhoneNumber(<span class="string">'01015774949'</span>, <span class="string">'+04'</span>); <span class="comment">// +041015774949</span></span><br></pre></td></tr></table></figure>
 
-<h2 id="나머지-매개변수"><a href="#나머지-매개변수" class="headerlink" title="나머지 매개변수"></a>나머지 매개변수</h2><p>나머지 매개변수(rest parameter)는 ES6에서 제안된 특징으로 개수가 정해지지 않은 인수(arguments)를 배열(array)로 받을 수 있는 기능입니다. 이는 <code>...</code>라는 표기법을 통해 나머지 매개변수에 접근할 수 있습니다.</p>
+<h3 id="나머지-매개변수"><a href="#나머지-매개변수" class="headerlink" title="나머지 매개변수"></a>나머지 매개변수</h3><p>나머지 매개변수(rest parameter)는 ES6에서 제안된 특징으로 개수가 정해지지 않은 인수(arguments)를 배열(array)로 받을 수 있는 기능입니다. 이는 <code>...</code>라는 표기법을 통해 나머지 매개변수에 접근할 수 있습니다.</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">concat</span>(<span class="params">...restParameter <span class="regexp">/* 나머지 매개변수 */</span></span>) </span>&#123; ... &#125;</span><br></pre></td></tr></table></figure>
 
 <p>나머지 매개변수는 0개 이상의 요소를 받을 수 있습니다. 따라 위 예제의 concat 함수를 호출하려면 최소한 0개 이상의 인수를 전댈해야 합니다.</p>
@@ -390,7 +787,7 @@
 <p>위의 concat 함수에 선언된 나머지 매개변수는 타입이 없기 때문에 타입 구분없이 여러 인수를 전달받아 문자열 합치기를 수행합니다. 그러나 이를 의도하고 구현하는 경우는 극히 드물 것입니다. 보통은 문자열 배열을 하나의 문자열로 만들기 위해 위와 같은 함수를 이용할 것입니다. 이런 경우에는 나머지 매개변수에 타입을 추가해 지정한 타입의 인수만을 받도록 제한할 수 있습니다.</p>
 <figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">concat</span>(<span class="params">...restParameter: <span class="built_in">string</span>[]  <span class="comment">/* 나머지 매개변수 타입 */</span></span>): <span class="title">string</span> </span>&#123; ... &#125;</span><br></pre></td></tr></table></figure>
 
-<h2 id="선택-매개변수"><a href="#선택-매개변수" class="headerlink" title="선택 매개변수"></a>선택 매개변수</h2><p>앞에서 살펴본 나머지 매개변수를 선언하여 가변적으로 인자를 받을 수 있었습니다. 그런데 나머지 매개변수는 최대 개수가 정해져 있지 않기 때문에 불필요한 인수들이 함께 전달될 수 있습니다. 예를 들어 인수의 개수를 1개 혹은 2개로 제한하기 위해서는 ‘선택 매개변수(optional parameter)’를 이용해야 합니다.</p>
+<h3 id="선택-매개변수"><a href="#선택-매개변수" class="headerlink" title="선택 매개변수"></a>선택 매개변수</h3><p>앞에서 살펴본 나머지 매개변수를 선언하여 가변적으로 인자를 받을 수 있었습니다. 그런데 나머지 매개변수는 최대 개수가 정해져 있지 않기 때문에 불필요한 인수들이 함께 전달될 수 있습니다. 예를 들어 인수의 개수를 1개 혹은 2개로 제한하기 위해서는 ‘선택 매개변수(optional parameter)’를 이용해야 합니다.</p>
 <p>선택 매개변수는 변수명 뒤에 물음표(<code>?</code>)를 붙이는 식으로 선언합니다.</p>
 <figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sum</span>(<span class="params">a: <span class="built_in">number</span>, b?: <span class="built_in">number</span></span>): <span class="title">number</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> a + b;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(sum(<span class="number">1</span>)); <span class="comment">// NaN</span></span><br></pre></td></tr></table></figure>
 
@@ -1415,20 +1812,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-count">9</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-count">4</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
