@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"hyeongyuan.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="12.1. 프로미스를 이용한 제어 흐름 개선 HTTP 요청은 비동기이므로 콜백 헬(callback hell)과 같은 중첩 스코프를 만들어 냅니다. 타입스크립트는 ES6에서 제안된 프로미스를 이용해 콜백 헬이 되지 않도록 제어 흐름을 개선할 수 있습니다. 12.1.1. 비동기 호출 시 중첩 스코프의 문제자바스크립트는 비동기 요청 후 응답 결과를 콜백 함수로">
+<meta property="og:type" content="article">
+<meta property="og:title" content="타입스크립트 스터디 8주차">
+<meta property="og:url" content="https://hyeongyuan.github.io/2020/06/17/typescript-aync-await/index.html">
+<meta property="og:site_name" content="DevieW">
+<meta property="og:description" content="12.1. 프로미스를 이용한 제어 흐름 개선 HTTP 요청은 비동기이므로 콜백 헬(callback hell)과 같은 중첩 스코프를 만들어 냅니다. 타입스크립트는 ES6에서 제안된 프로미스를 이용해 콜백 헬이 되지 않도록 제어 흐름을 개선할 수 있습니다. 12.1.1. 비동기 호출 시 중첩 스코프의 문제자바스크립트는 비동기 요청 후 응답 결과를 콜백 함수로">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-06-17T09:30:00.000Z">
+<meta property="article:modified_time" content="2020-06-17T09:49:35.206Z">
+<meta property="article:author" content="Goofy">
+<meta property="article:tag" content="typescript">
+<meta property="article:tag" content="async-await">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://hyeongyuan.github.io/2020/06/17/typescript-aync-await/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>타입스크립트 스터디 8주차 | DevieW</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">DevieW</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/hyeongyuan" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://hyeongyuan.github.io/2020/06/17/typescript-aync-await/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Goofy">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DevieW">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          타입스크립트 스터디 8주차
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-06-17 18:30:00 / Modified: 18:49:35" itemprop="dateCreated datePublished" datetime="2020-06-17T18:30:00+09:00">2020-06-17</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/typescript/" itemprop="url" rel="index"><span itemprop="name">typescript</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2020/06/17/typescript-aync-await/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/06/17/typescript-aync-await/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="12-1-프로미스를-이용한-제어-흐름-개선"><a href="#12-1-프로미스를-이용한-제어-흐름-개선" class="headerlink" title="12.1. 프로미스를 이용한 제어 흐름 개선"></a>12.1. 프로미스를 이용한 제어 흐름 개선</h1><hr>
+<p>HTTP 요청은 비동기이므로 콜백 헬(callback hell)과 같은 중첩 스코프를 만들어 냅니다. 타입스크립트는 ES6에서 제안된 프로미스를 이용해 콜백 헬이 되지 않도록 제어 흐름을 개선할 수 있습니다.</p>
+<h2 id="12-1-1-비동기-호출-시-중첩-스코프의-문제"><a href="#12-1-1-비동기-호출-시-중첩-스코프의-문제" class="headerlink" title="12.1.1. 비동기 호출 시 중첩 스코프의 문제"></a>12.1.1. 비동기 호출 시 중첩 스코프의 문제</h2><p>자바스크립트는 비동기 요청 후 응답 결과를 콜백 함수로 처리합니다. 이렇게 콜백 함수로 처리하는 상황은 대체로 응답 시점을 예측할 수 없을 때입니다. 비동기 요청 후 응답 결과는 콜백 함수의 매개변수를 통해 전달됩니다.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$.<span class="keyword">get</span>('ajax/test.html', function (data) &#123;</span><br><span class="line">  <span class="comment">// 응답 결과에 따라 어떤 로직을 수행함</span></span><br><span class="line">  <span class="keyword">if</span> (data.grade == <span class="string">'admin'</span>) &#123;</span><br><span class="line">    <span class="comment">// 로직 처리</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>위 jQuery 코드에서 콜백 함수의 매개변수에는 HTTP 요청의 응답 데이터가 전달되며 응답 결과에 따라 로직을 처리합니다. 콜백 함수를 처리할 때 사용하는 제어문들은 스코프를 더욱 깊게 만드는 요인이 됩니다. 위 코드는 스코프의 깊이가 2 정도로 가독성이 나쁘지 않지만, 스코프 깊이가 3 이상이 되면 가독성이 서서히 나빠지기 시작합니다. 이러한 상황은 흔히 콜백 헬(callback hell)로 알려져 있습니다.</p>
+<p>콜백 헬이 나타나면 가독성이 떨어져 유지보수를 어렵게 합니다. 콜백 헬을 피하려면 스코프가 중첩되지 않도록 제어 구조를 개선해야 합니다. 이어서 소개할 프로미스가 콜백 헬의 대안이 됩니다.</p>
+<h2 id="12-1-2-프로미스-소개와-동작-과정"><a href="#12-1-2-프로미스-소개와-동작-과정" class="headerlink" title="12.1.2. 프로미스 소개와 동작 과정"></a>12.1.2. 프로미스 소개와 동작 과정</h2><p>프로미스(promise)는 중첩 스코프 문제를 해결하기 위해 ES6에서 제한된 객체입니다. 프로미스는 스코프가 깊어지지 않도록 나열식 패턴 방식으로 입력 데이터를 처리할 수 있게 합니다.</p>
+<p>프로미스는 다음과 같은 세 가지 상태가 존재합니다.</p>
+<ul>
+<li>대기(pending) 상태</li>
+<li>충족(fulfilled) 상태</li>
+<li>거부(rejected) 상태</li>
+</ul>
+<p>대기 상태는 프로미스가 실행되고 값이 결정되지 않은 상태를 말합니다. 프로미스가 완료되지 않았으므로 대기 상태로 불립니다. 충족 상태는 대기 상태가 끝난 뒤 값이 결졍된 상태이며 resolve 함수를 통해 값을 전달합니다. 마지막으로 거부 상태는 프로미스가 제대로 처리되지 않고 거부된 상태로 catch 메서드를 통해 예외를 처리해 주어야 합니다.</p>
+<p>프로미스는 최초 실행 함수(executor)를 통해 실행됩니다. 실행 함수가 <strong>시작되고 마치기 전까지 대기 상태</strong>를 유지합니다. 프로미스는 익명 함수 형태(또는 화살표 함수)로 작성할 수 있습니다.</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> promise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// 처리할 프로미스 작업에 대한 로직을 추가함</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>프로미스가 정상적으로 수행됐다면 충족 상태가 되어 resolve 함수를 호출합니다. 반대로 실패했다면 거부 상태가 되어 reject 함수를 호출해 예외 처리를 진행합니다.</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> promise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (충족 상태) &#123;</span><br><span class="line">    resolve(result);</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">// 거부 상태</span></span><br><span class="line">    reject(<span class="string">"거절 사유를 전달함."</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>첫 번째 매개변수로 전달된 resolve 함수를 호출하면 <code>then</code> 메서드를 호출합니다. then 메서드는 결정된 값에 대해 후속 처리를 담당합니다. reject 함수에 거절된 사유를 전달하면 <code>catch</code> 메서드가 호출됩니다. catch 메서드는 전달된 이유를 표시해주고 예외 처리를 진행합니다.</p>
+<h2 id="12-1-3-타입스크립트에서-프로미스-컴파일-방법"><a href="#12-1-3-타입스크립트에서-프로미스-컴파일-방법" class="headerlink" title="12.1.3. 타입스크립트에서 프로미스 컴파일 방법"></a>12.1.3. 타입스크립트에서 프로미스 컴파일 방법</h2><h3 id="명령어-옵션을-통한-프로미스-컴파일"><a href="#명령어-옵션을-통한-프로미스-컴파일" class="headerlink" title="명령어 옵션을 통한 프로미스 컴파일"></a>명령어 옵션을 통한 프로미스 컴파일</h3><p>프로미스는 비교적 최신 브라우저에서 지원합니다.</p>
+<table>
+<thead>
+<tr>
+<th>IE</th>
+<th>Edege</th>
+<th>파이어폭스</th>
+<th>크롬</th>
+<th>사파리</th>
+<th>오페라</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>지원 안 함</td>
+<td>14 이상</td>
+<td>52 이상</td>
+<td>57 이상</td>
+<td>10 이상</td>
+<td>43 이상</td>
+</tr>
+</tbody></table>
+<p>모바일 브라우저에서 프로미스의 지원 현황은 다음과 같습니다.</p>
+<table>
+<thead>
+<tr>
+<th>iOS 사파리</th>
+<th>오페라 미니</th>
+<th>안드로이드 브라우저</th>
+<th>안드로이드용 크롬</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>10.2 이상</td>
+<td>지원 안 함</td>
+<td>53 이상</td>
+<td>56 이상</td>
+</tr>
+</tbody></table>
+<p>구 브라우저와의 호환성을 고려해 ES5로 컴파일하되 프로미스만 사용할 수 있도록 컴파일하면 좋을 것 입니다. ‘ES5 + 프로미스’ 조합으로 컴파일하려면 다음처럼 <code>--lib</code> 옵션을 이용할 수 있습니다.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> tsc hello.ts --lib ES2015.Promise,dom,es5</span></span><br></pre></td></tr></table></figure>
+
+<p>위 명령어를 실행하면 ES5와 프로미스를 함께 컴파일할 수 있습니다. lib 옵션을 사용하지 않고 프로미스 기능을 테스트하려면 target을 ES6로 맞춰서 컴파일해야 합니다.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> tsc promise-async.ts --target es6</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="tsconfig-json-설정을-통한-프로미스-컴파일"><a href="#tsconfig-json-설정을-통한-프로미스-컴파일" class="headerlink" title="tsconfig.json 설정을 통한 프로미스 컴파일"></a>tsconfig.json 설정을 통한 프로미스 컴파일</h3><p>프로미스를 허용하려면 tsconfig.json 파일의 target을 ES6(또는 ES2015)로 설정하면 됩니다.</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"compilerOptions"</span>: &#123;</span><br><span class="line">    <span class="attr">"target"</span>: <span class="string">"es6"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>ES5와 프로미스를 결합해 컴파일하려면 tsconfig.json 파일에 lib 속성을 추가해 줘야 합니다.</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"compilerOptions"</span>: &#123;</span><br><span class="line">    <span class="attr">"outDir"</span>: <span class="string">"./dist"</span>,</span><br><span class="line">    <span class="attr">"lib"</span>: [<span class="string">"es5"</span>, <span class="string">"dom"</span>, <span class="string">"es2015.promise"</span>]</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"exclude"</span>: [<span class="string">"node_modules"</span>, <span class="string">".vscode"</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>lib 속성에 추가한 라이브러리 중 ES5는 표준 ES5에서 사용하는 Array, Boolean, Function, IArguments, Number, Object, RegExp, String과 같은 특징을 추가하기 위한 라이브러리입니다. 따라서 lib 속성에 ES5 라이브러리를 제외해 컴파일하면 타입을 찾을 수 없다는 컴파일 에러 메세지가 출력됩니다.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> tsc</span></span><br><span class="line">throw new TSError(formatDiagnostics(diagnosticList, cwd, ts, lineOffset))</span><br></pre></td></tr></table></figure>
+
+<h2 id="12-1-4-프로미스를-사용한-중첩-스코프-개선"><a href="#12-1-4-프로미스를-사용한-중첩-스코프-개선" class="headerlink" title="12.1.4. 프로미스를 사용한 중첩 스코프 개선"></a>12.1.4. 프로미스를 사용한 중첩 스코프 개선</h2><h3 id="then-메서드를-이용해-중첩-코드-개선"><a href="#then-메서드를-이용해-중첩-코드-개선" class="headerlink" title="then 메서드를 이용해 중첩 코드 개선"></a>then 메서드를 이용해 중첩 코드 개선</h3><p>프로미스는 처리 흐름을 개선할 방법으로 <code>then</code> 메서드를 제공합니다. then 메서드는 중첩 스코프를 만들지 않아 가독성을 개선합니다. then 메서드는 하나의 처리 작업에 해당하며 작성 개수에 따라 체이닝 형태로 여러 개를 동시에 선언할 수 있습니다.</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">promise.then(<span class="function"><span class="params">res</span> =&gt;</span> &#123;</span><br><span class="line">  ...</span><br><span class="line">&#125;).then(<span class="function"><span class="params">res</span> =&gt;</span> &#123;</span><br><span class="line">  ...</span><br><span class="line">&#125;).then(<span class="function"><span class="params">res</span> =&gt;</span> &#123;</span><br><span class="line">  ...</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>then 메서드는 res 매개변수로 결정 값을 전달받습니다. Then 메서드를 체이닝 형태로 선언하고 then 메서드에서 발생한 예외 상황을 처리하려면 catch 메서드를 마지막에 선언해야 합니다.</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> chainingPromise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span> (<span class="params">resolve, reject</span>) </span>&#123;</span><br><span class="line">  resolve(<span class="number">1</span>);</span><br><span class="line">&#125;)</span><br><span class="line">  .then(<span class="function"><span class="keyword">function</span> (<span class="params">value</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(value); <span class="comment">// 1</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">2</span>;</span><br><span class="line">  &#125;)</span><br><span class="line">  .then(<span class="function"><span class="keyword">function</span> (<span class="params">value</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(value); <span class="comment">// 2</span></span><br><span class="line">    <span class="keyword">throw</span> <span class="string">'Exception!'</span>;</span><br><span class="line">  &#125;)</span><br><span class="line">  .catch(<span class="function"><span class="keyword">function</span> (<span class="params">e</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(e); <span class="comment">// Exception!</span></span><br><span class="line">  &#125;);</span><br></pre></td></tr></table></figure>
+
+<h2 id="12-1-5-프로미스의-비동기-호출-제어"><a href="#12-1-5-프로미스의-비동기-호출-제어" class="headerlink" title="12.1.5. 프로미스의 비동기 호출 제어"></a>12.1.5. 프로미스의 비동기 호출 제어</h2><p>프로미스는 비동기 응답의 흐름을 개선할 수 있습니다.</p>
+<h3 id="호출-순서와-응답-순서가-일치하지-않는-문제"><a href="#호출-순서와-응답-순서가-일치하지-않는-문제" class="headerlink" title="호출 순서와 응답 순서가 일치하지 않는 문제"></a>호출 순서와 응답 순서가 일치하지 않는 문제</h3><p>임의 시간만큼의 지연이 있는 비동기 함수 여러 개를 동시에 호출하면 호출 순서와 응답 결과의 순서가 일치되지 않은 문제가 있습니다. 아래의 delay 함수는 호출할 때마다 지연시간이 달라지므로 콜백 함수가 실행되는 시점은 호출 순서와 일치하지 않게 됩니다.</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">delay</span>(<span class="params">msg</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> ms: <span class="built_in">number</span> = <span class="built_in">Math</span>.floor(<span class="built_in">Math</span>.random() * <span class="number">1000</span>) + <span class="number">1</span>;</span><br><span class="line">  setTimeout(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(msg);</span><br><span class="line">  &#125;, ms);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">asyncFunc</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  delay(<span class="string">'hello1'</span>);</span><br><span class="line">  delay(<span class="string">'hello2'</span>);</span><br><span class="line">  delay(<span class="string">'hello3'</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">asyncFunc();</span><br><span class="line"></span><br><span class="line"><span class="comment">// [실행 결과]</span></span><br><span class="line"><span class="comment">// hello3</span></span><br><span class="line"><span class="comment">// hello2</span></span><br><span class="line"><span class="comment">// hello1</span></span><br></pre></td></tr></table></figure>
+
+<p>delay 함수는 1~1000ms 범위의 임의 지연 후에 비동기 응답이 이뤄지므로 호출 순서와 응답 순서가 일치하지 않게 됩니다. delay 함수를 호출한 순서대로 콜백 함수가 실행되는 순서를 맞추려면 이어서 살펴볼 <code>Promise.all( )</code> 메서드를 활용하면 됩니다.</p>
+<h3 id="Promise-all-을-이용한-처리-결과에-대한-동기화"><a href="#Promise-all-을-이용한-처리-결과에-대한-동기화" class="headerlink" title="Promise.all( )을 이용한 처리 결과에 대한 동기화"></a>Promise.all( )을 이용한 처리 결과에 대한 동기화</h3><p>Promise.all( ) 메서드는 비동기 응답을 호출 순서에 따라 처리할 수 있는 인터페이스를 제공합니다. 작업 완료 시점이 일정치 않아 뒤바뀐 결정 값의 순서를 호출 순서에 따라 출력해주는 역할을 합니다.</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">asyncDelay</span>(<span class="params">order: <span class="built_in">number</span></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span> (<span class="params">resolve, reject</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> ms: <span class="built_in">number</span> = <span class="built_in">Math</span>.floor(<span class="built_in">Math</span>.random() * <span class="number">1000</span>) + <span class="number">1</span>;</span><br><span class="line">    setTimeout(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">'작업 완료: '</span> + order);</span><br><span class="line">      resolve(order);</span><br><span class="line">    &#125;, ms);</span><br><span class="line">  &#125;).then();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">syncResultPromise</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> p1 = asyncDelay(<span class="number">1</span>);</span><br><span class="line">  <span class="keyword">let</span> p2 = asyncDelay(<span class="number">2</span>);</span><br><span class="line">  <span class="keyword">let</span> p3 = asyncDelay(<span class="number">3</span>);</span><br><span class="line">  <span class="keyword">let</span> p4 = asyncDelay(<span class="number">4</span>);</span><br><span class="line"></span><br><span class="line">  <span class="built_in">Promise</span>.all([p1, p2, p3, p4]).then(<span class="function"><span class="keyword">function</span> (<span class="params">order</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">`동기화된 출력: <span class="subst">$&#123;order&#125;</span>`</span>);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">syncResultPromise();</span><br><span class="line"><span class="comment">// [실행 결과]</span></span><br><span class="line"><span class="comment">// 작업 완료: 2</span></span><br><span class="line"><span class="comment">// 작업 완료: 3</span></span><br><span class="line"><span class="comment">// 작업 완료: 4</span></span><br><span class="line"><span class="comment">// 작업 완료: 1</span></span><br><span class="line"><span class="comment">// 동기화된 출력: 1,2,3,4</span></span><br></pre></td></tr></table></figure>
+
+<p>asyncDelay 함수는 임의의 지연시간 후에 작업을 완료하므로, 실행 결과에서 작업 완료의 출력 순서처럼 실행할 때마다 바뀝니다. 그런데 Promise.all( ) 메서드는 각 프로미스 객체의 결정 값을 호출 순서에 맞춰 1, 2, 3, 4와 같이 차례대로 정렬해 출력합니다.</p>
+<h1 id="12-2-RxJS를-활용한-데이터-스트림-처리"><a href="#12-2-RxJS를-활용한-데이터-스트림-처리" class="headerlink" title="12.2. RxJS를 활용한 데이터 스트림 처리"></a>12.2. RxJS를 활용한 데이터 스트림 처리</h1><hr>
+<h2 id="12-2-1-반응형-프로그래밍"><a href="#12-2-1-반응형-프로그래밍" class="headerlink" title="12.2.1. 반응형 프로그래밍"></a>12.2.1. 반응형 프로그래밍</h2><p>반응형 프로그래밍 모델은 웹 페이지에 들어오는 스트림(stream) 형태의 입력 이벤트를 감지해 반응(responsive)을 처리할 수 있는 모델입니다. 이와 관련한 예로 입력에 반응하는 검색어 제안(keyword suggestion) 기능이 있습니다. 검색어 제안 기능은 사용자가 어떠한 단어를 입력하면 단어에 연관된 관련 키워드를 보이는 기능입니다. 검색어 제안 기능은 서용자가 입력한 키값이 데이터 스트림(data stream) 형태로 서버에 전달되고 처리 결과를 받아 추천 키워드 목록으로 응답해 줍니다.</p>
+<h2 id="12-3-동시성을-활용한-비동기-호출-제어"><a href="#12-3-동시성을-활용한-비동기-호출-제어" class="headerlink" title="12.3. 동시성을 활용한 비동기 호출 제어"></a>12.3. 동시성을 활용한 비동기 호출 제어</h2><hr>
+<h3 id="12-3-1-동시성과-동기화-작업"><a href="#12-3-1-동시성과-동기화-작업" class="headerlink" title="12.3.1. 동시성과 동기화 작업"></a>12.3.1. 동시성과 동기화 작업</h3><p><strong>동시성(concurrency)</strong>이란 멀티 스레드(multi threads)와 같이 여러 개의 단위 작업이 동시에 실행되는 성질을 말합니다. 자바스크립트에서 동시성은 작업을 동시에 처리하는 것을 의미합니다.</p>
+<ul>
+<li>비동기 프로그래밍 모델</li>
+<li>멀티 스레드 프로그래밍</li>
+</ul>
+<p>비동기 프로그래밍 모델은 HTTP 요청과 같은 비동기 요청 상황에 해당하는 모델입니다. 비동기 프로그래밍 모델은 동기 프로그래밍과 달리, 단위 작업(task)을 하나의 스레드 내에서 번갈아 가며 실행합니다. 여기서 <strong>스레드(threads)</strong>는 프로세스보다 작은 단위로 프로세스 내에 존재하는 작은 작업 단위를 의미합니다.</p>
+<p>멀티 스레드 프로그래밍은 멀티 코어 기기상에서 여러 스레드에서 작업을 동시에 실행하는 방식입니다. 여러 작업을 동시에 실행하기 때문에 병렬성(parallelism)의 특성이 있습니다.</p>
+<p>자바스크립트는 멀티 스레딩을 지원하지 않습니다. 자바스크립트가 멀티 스레딩을 지원하지 않는 이유는 싱글 스레드만으로 페이지를 로딩할 때보다 더 빠른 속도로 실행할 수 있기 때문입니다.</p>
+<p>그러나 이보다 더 근본적인 이유로는 브라우저의 인터프리터(interpreter)가 단일 스레드여서 멀티 스레드를 지원하지 않기 때문입니다.</p>
+<p>비동기 프로그래밍은 작업을 순차적으로 실행하지 않고 응답 시간을 고려해 실행 순서가 결정됩니다. 비동기 요청을 한 순서대로 동기화 실행(synchronous execution)을 한다면 호출 순서를 고려한 처리가 가능할 것입니다. 이처럼 비동기 호출 작업의 실행 순서를 동기화하면 중첩 스코프가 생기지 않아 좋고 비동기 응답을 제어할 수 있게 돼서 더욱 좋습니다. 이와 관련한 특징이 바로 <code>Async/Await</code>입니다.</p>
+<h3 id="12-3-2-Async-Await-소개와-설정"><a href="#12-3-2-Async-Await-소개와-설정" class="headerlink" title="12.3.2. Async/Await 소개와 설정"></a>12.3.2. Async/Await 소개와 설정</h3><p>Async/Await는 ES2015에 제안됐고 타입스크립트에서는 1.7에서 추가됐습니다. Async/Await를 이용하면 비동기 함수를 동기화할 수 있습니다. Async/Await를 지원하려면 target을 ES6(ES2015)로 맞춰 두어야 합니다.</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"compilerOptions"</span>: &#123;</span><br><span class="line">    <span class="attr">"module"</span>: <span class="string">"commonjs"</span>,</span><br><span class="line">    <span class="attr">"target"</span>: <span class="string">"es6"</span>,</span><br><span class="line">    <span class="attr">"noImplicity"</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="attr">"sourceMap"</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="attr">"outDir"</span>: <span class="string">"./dist"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>만약, target이 ES6가 아니라 ES5로 하려면 하위 표준에서 호환될 수 있도록 lib 옵션을 통해 조정해야 합니다. TS 2.1이 나오기 전에는 ES6를 대상으로 한정적으로 지원됐지만, TS 2.1이 나오면서 ES3와 ES5의 런타임 환경에서도 지원하게 됐습니다. TS 2.1 이상에서 lib 옵션과 관련한 구성은 다음과 같습니다.</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"compilerOptions"</span>: &#123;</span><br><span class="line">    <span class="attr">"lib"</span>: [<span class="string">"dom"</span>, <span class="string">"es2015.promise"</span>, <span class="string">"es5"</span>]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="12-3-3-Async-Await를-이용한-동기화"><a href="#12-3-3-Async-Await를-이용한-동기화" class="headerlink" title="12.3.3. Async/Await를 이용한 동기화"></a>12.3.3. Async/Await를 이용한 동기화</h3><h3 id="비동기-호출-코드"><a href="#비동기-호출-코드" class="headerlink" title="비동기 호출 코드"></a>비동기 호출 코드</h3><p>비동기 호출은 응답 시간이 저마다 다를 수 있으므로 차례대로 실행되지 않고 호출 시간과 응답 시간을 고려해 동작을 수행합니다.</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">delay</span>(<span class="params">msg: <span class="built_in">string</span></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> ms: <span class="built_in">number</span> = <span class="built_in">Math</span>.floor(<span class="built_in">Math</span>.random() * <span class="number">1000</span>) + <span class="number">1</span>;</span><br><span class="line">  setTimeout(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(msg, ms + <span class="string">'ms'</span>);</span><br><span class="line">  &#125;, ms);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">asyncDelay</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  delay(<span class="string">'a'</span>);</span><br><span class="line">  delay(<span class="string">'b'</span>);</span><br><span class="line">  delay(<span class="string">'c'</span>);</span><br><span class="line">&#125;</span><br><span class="line">asyncDelay();</span><br><span class="line"><span class="comment">// [ 실행 결과 ]</span></span><br><span class="line"><span class="comment">// c 219ms</span></span><br><span class="line"><span class="comment">// a 516ms</span></span><br><span class="line"><span class="comment">// b 838ms</span></span><br></pre></td></tr></table></figure>
+
+<p>이처럼 매번 실행 때마다 응답 결과의 순서가 달라지는 것은 동기화되지 않았기 때문입니다.</p>
+<h3 id="비동기-호출을-동기화"><a href="#비동기-호출을-동기화" class="headerlink" title="비동기 호출을 동기화"></a>비동기 호출을 동기화</h3><p>비동기 호출이 이뤄지면 보통 응답 시점을 무시하고 작업이 응답되기 전에 다음 작업을 진행하므로 전체 코드의 실행 시간은 짧습니다. 허나 때론 비동기 호출 시 순차적으로 이뤄져야 할 상황이 있습니다. 이는 하나의 비동기 함수의 호출 결과가 다른 비동기 함수의 호출 결과에 영향을 미치는 경우가 그렇습니다.</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">delay2</span>(<span class="params">msg: <span class="built_in">string</span></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> ms: <span class="built_in">number</span> = <span class="built_in">Math</span>.floor(<span class="built_in">Math</span>.random() * <span class="number">1000</span>) + <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span> (<span class="params">resolve</span>) </span>&#123;</span><br><span class="line">    setTimeout(resolve, ms, msg);</span><br><span class="line">  &#125;).then(<span class="function"><span class="keyword">function</span> (<span class="params">v</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(v, ms + <span class="string">'ms'</span>);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">sync2</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> start = <span class="keyword">new</span> <span class="built_in">Date</span>().getTime();</span><br><span class="line"></span><br><span class="line">  <span class="keyword">await</span> delay2(<span class="string">'a'</span>);</span><br><span class="line">  <span class="keyword">await</span> delay2(<span class="string">'b'</span>);</span><br><span class="line">  <span class="keyword">await</span> delay2(<span class="string">'c'</span>);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">let</span> end = <span class="keyword">new</span> <span class="built_in">Date</span>().getTime();</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'시간: '</span>, end - start + <span class="string">'ms'</span>);</span><br><span class="line">&#125;</span><br><span class="line">sync2();</span><br><span class="line"><span class="comment">// [ 실행 결과 ]</span></span><br><span class="line"><span class="comment">// a 691ms</span></span><br><span class="line"><span class="comment">// b 623ms</span></span><br><span class="line"><span class="comment">// c 655ms</span></span><br><span class="line"><span class="comment">// 시간: 2008sm</span></span><br></pre></td></tr></table></figure>
+
+<p>위 실행 결과에서 보듯이 delay2 함수가 동기화돼 호출 순서가 맞춰 실행됐고, 결과도 a, b, c 순으로 출력됐습니다.</p>
+<h3 id="비동기-함수의-처리-결과가-영향을-미치도록-동기화-실행"><a href="#비동기-함수의-처리-결과가-영향을-미치도록-동기화-실행" class="headerlink" title="비동기 함수의 처리 결과가 영향을 미치도록 동기화 실행"></a>비동기 함수의 처리 결과가 영향을 미치도록 동기화 실행</h3><p>Async/Await를 구현했을 때 비동기 호출을 하면 호출한 순서대로 작업을 실행하고 마친다는 것을 확인할 수 있습니다. 이때 await로 호출한 함수에서 반환값을 받으려면 반환값을 다음과 같은 형태로 선언해야 합니다.</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">delay3</span>(<span class="params">msg, ms</span>): <span class="title">Promise</span>&lt;<span class="title">any</span>&gt; </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span> (<span class="params">resolve</span>) </span>&#123;</span><br><span class="line">    setTimeout(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">      resolve(msg);</span><br><span class="line">    &#125;, ms);</span><br><span class="line">  &#125;).then(<span class="function"><span class="keyword">function</span> (<span class="params">v</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(v + <span class="string">' '</span> + ms + <span class="string">'ms'</span>);</span><br><span class="line">    <span class="keyword">return</span> v;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">sync3</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> start = <span class="keyword">new</span> <span class="built_in">Date</span>().getTime();</span><br><span class="line">  <span class="keyword">let</span> result1: <span class="built_in">Promise</span>&lt;<span class="built_in">any</span>&gt; = <span class="keyword">await</span> delay3(<span class="string">'a'</span>, <span class="number">1000</span>);</span><br><span class="line">  <span class="keyword">let</span> result2: <span class="built_in">Promise</span>&lt;<span class="built_in">any</span>&gt; = <span class="keyword">await</span> delay3(result1 + <span class="string">'b'</span>, <span class="number">500</span>);</span><br><span class="line">  <span class="keyword">let</span> result3: <span class="built_in">Promise</span>&lt;<span class="built_in">any</span>&gt; = <span class="keyword">await</span> delay3(result2 + <span class="string">'b'</span>, <span class="number">100</span>);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">let</span> end = <span class="keyword">new</span> <span class="built_in">Date</span>().getTime();</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'시간: '</span>, end - start + <span class="string">'ms'</span>);</span><br><span class="line">&#125;</span><br><span class="line">sync3();</span><br><span class="line"><span class="comment">// [ 실행 결과 ]</span></span><br><span class="line"><span class="comment">// a 1000ms</span></span><br><span class="line"><span class="comment">// b 500ms</span></span><br><span class="line"><span class="comment">// c 100ms</span></span><br><span class="line"><span class="comment">// 시간: 1640ms</span></span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/typescript/" rel="tag"># typescript</a>
+              <a href="/tags/async-await/" rel="tag"># async-await</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/06/03/typescript-type-assertion/" rel="prev" title="타입스크립트 스터디 7주차">
+      <i class="fa fa-chevron-left"></i> 타입스크립트 스터디 7주차
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#12-1-프로미스를-이용한-제어-흐름-개선"><span class="nav-number">1.</span> <span class="nav-text">12.1. 프로미스를 이용한 제어 흐름 개선</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#12-1-1-비동기-호출-시-중첩-스코프의-문제"><span class="nav-number">1.1.</span> <span class="nav-text">12.1.1. 비동기 호출 시 중첩 스코프의 문제</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#12-1-2-프로미스-소개와-동작-과정"><span class="nav-number">1.2.</span> <span class="nav-text">12.1.2. 프로미스 소개와 동작 과정</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#12-1-3-타입스크립트에서-프로미스-컴파일-방법"><span class="nav-number">1.3.</span> <span class="nav-text">12.1.3. 타입스크립트에서 프로미스 컴파일 방법</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#명령어-옵션을-통한-프로미스-컴파일"><span class="nav-number">1.3.1.</span> <span class="nav-text">명령어 옵션을 통한 프로미스 컴파일</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tsconfig-json-설정을-통한-프로미스-컴파일"><span class="nav-number">1.3.2.</span> <span class="nav-text">tsconfig.json 설정을 통한 프로미스 컴파일</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#12-1-4-프로미스를-사용한-중첩-스코프-개선"><span class="nav-number">1.4.</span> <span class="nav-text">12.1.4. 프로미스를 사용한 중첩 스코프 개선</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#then-메서드를-이용해-중첩-코드-개선"><span class="nav-number">1.4.1.</span> <span class="nav-text">then 메서드를 이용해 중첩 코드 개선</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#12-1-5-프로미스의-비동기-호출-제어"><span class="nav-number">1.5.</span> <span class="nav-text">12.1.5. 프로미스의 비동기 호출 제어</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#호출-순서와-응답-순서가-일치하지-않는-문제"><span class="nav-number">1.5.1.</span> <span class="nav-text">호출 순서와 응답 순서가 일치하지 않는 문제</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Promise-all-을-이용한-처리-결과에-대한-동기화"><span class="nav-number">1.5.2.</span> <span class="nav-text">Promise.all( )을 이용한 처리 결과에 대한 동기화</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#12-2-RxJS를-활용한-데이터-스트림-처리"><span class="nav-number">2.</span> <span class="nav-text">12.2. RxJS를 활용한 데이터 스트림 처리</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#12-2-1-반응형-프로그래밍"><span class="nav-number">2.1.</span> <span class="nav-text">12.2.1. 반응형 프로그래밍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#12-3-동시성을-활용한-비동기-호출-제어"><span class="nav-number">2.2.</span> <span class="nav-text">12.3. 동시성을 활용한 비동기 호출 제어</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#12-3-1-동시성과-동기화-작업"><span class="nav-number">2.2.1.</span> <span class="nav-text">12.3.1. 동시성과 동기화 작업</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#12-3-2-Async-Await-소개와-설정"><span class="nav-number">2.2.2.</span> <span class="nav-text">12.3.2. Async&#x2F;Await 소개와 설정</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#12-3-3-Async-Await를-이용한-동기화"><span class="nav-number">2.2.3.</span> <span class="nav-text">12.3.3. Async&#x2F;Await를 이용한 동기화</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#비동기-호출-코드"><span class="nav-number">2.2.4.</span> <span class="nav-text">비동기 호출 코드</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#비동기-호출을-동기화"><span class="nav-number">2.2.5.</span> <span class="nav-text">비동기 호출을 동기화</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#비동기-함수의-처리-결과가-영향을-미치도록-동기화-실행"><span class="nav-number">2.2.6.</span> <span class="nav-text">비동기 함수의 처리 결과가 영향을 미치도록 동기화 실행</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Goofy</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">14</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Goofy</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://https-hyeongyuan-github-io.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://hyeongyuan.github.io/2020/06/17/typescript-aync-await/";
+    this.page.identifier = "2020/06/17/typescript-aync-await/";
+    this.page.title = "타입스크립트 스터디 8주차";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://https-hyeongyuan-github-io.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+</body>
+</html>
